@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Author Hub · NooblyJS Folio</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/applications/blog/assets/css/styles.css">
+  <link rel="stylesheet" href="/applications/blog/assets/css/blog.css">
+</head>
+<body>
+  <a class="visually-hidden-focusable btn btn-primary position-absolute m-2" href="#author-app">Skip to content</a>
+
+  <nav class="navbar">
+    <div class="container-xl">
+      <a class="navbar-brand" href="/applications/blog/author"><i class="bi bi-journal-richtext text-accent me-2"></i>Author Hub</a>
+      <div class="d-flex align-items-center gap-2">
+        <a class="btn btn-link btn-sm" href="/applications/blog">
+          <i class="bi bi-box-arrow-up-right"></i>
+          View blog
+        </a>
+        <button type="button" class="btn btn-primary btn-sm" id="create-new-post-btn">
+          <i class="bi bi-plus-lg"></i>
+          New draft
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="author-tabs">
+    <div class="container-xl">
+      <ul class="nav" role="tablist" aria-label="Author Hub sections">
+        <li class="nav-item" role="presentation">
+          <button type="button" class="nav-link active" id="posts-tab" data-bs-toggle="tab" data-bs-target="#posts-tab-pane" role="tab" aria-controls="posts-tab-pane" aria-selected="true">Posts</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button type="button" class="nav-link" id="customise-tab" data-bs-toggle="tab" data-bs-target="#customise-tab-pane" role="tab" aria-controls="customise-tab-pane" aria-selected="false" tabindex="-1">Customise</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <main class="container-xl py-4" id="author-app" tabindex="-1">
+    <div class="alert d-none mb-4" id="author-alert" role="alert"></div>
+
+    <div class="tab-content">
+      <!-- Posts -->
+      <section class="tab-pane fade show active" id="posts-tab-pane" role="tabpanel" aria-labelledby="posts-tab" tabindex="0">
+        <div class="row g-4 align-items-start">
+          <div class="col-xl-7">
+            <section class="card" aria-labelledby="stories-heading">
+              <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+                <h1 class="h2 mb-0" id="stories-heading">Your stories</h1>
+                <div class="input-group" style="max-width: 280px">
+                  <span class="input-group-text"><i class="bi bi-search"></i></span>
+                  <label class="visually-hidden" for="post-filter-input">Filter stories</label>
+                  <input type="search" class="form-control" id="post-filter-input" placeholder="Filter by title, tag, author" autocomplete="off">
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table author-table align-middle mb-0" id="author-post-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Title</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Updated</th>
+                      <th scope="col" class="text-end">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td colspan="4" class="text-center py-5 text-muted is-loading">Loading stories…</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+
+          <div class="col-xl-5">
+            <section class="card author-editor" aria-labelledby="editor-heading">
+              <div class="d-flex align-items-center gap-2 mb-1">
+                <h2 class="mb-0 me-auto" id="editor-heading">Create a new story</h2>
+                <span class="badge bg-secondary-subtle text-secondary-emphasis" id="editor-status-badge">Draft</span>
+              </div>
+              <p class="small text-muted mb-4">Draft, edit and publish without leaving the page.</p>
+
+              <form id="post-editor-form" class="needs-validation" novalidate>
+                <input type="hidden" id="post-id">
+                <div class="mb-3">
+                  <label class="form-label" for="post-title">Title</label>
+                  <input type="text" class="form-control" id="post-title" placeholder="A title worth reading" required>
+                  <div class="invalid-feedback">Give your story a title.</div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="post-subtitle">Subtitle <span class="text-muted fw-normal">(optional)</span></label>
+                  <input type="text" class="form-control" id="post-subtitle" placeholder="Optional hook for your story">
+                </div>
+                <div class="row g-3 mb-3">
+                  <div class="col-sm-6">
+                    <label class="form-label" for="post-author">Author</label>
+                    <input type="text" class="form-control" id="post-author" placeholder="Your name" required>
+                    <div class="invalid-feedback">Add an author name.</div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="form-label" for="post-tags">Tags</label>
+                    <input type="text" class="form-control" id="post-tags" placeholder="Comma separated, e.g. life, AI">
+                  </div>
+                </div>
+                <div class="row g-3 mb-3">
+                  <div class="col-sm-6">
+                    <label class="form-label" for="post-status">Status</label>
+                    <select class="form-select" id="post-status">
+                      <option value="draft" selected>Draft</option>
+                      <option value="published">Published</option>
+                      <option value="scheduled">Scheduled</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="form-label" for="post-scheduled">Schedule <span class="text-muted fw-normal">(optional)</span></label>
+                    <input type="datetime-local" class="form-control" id="post-scheduled">
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="post-cover">Cover image URL</label>
+                  <input type="url" class="form-control" id="post-cover" placeholder="https://" aria-describedby="post-cover-hint">
+                  <div class="form-text" id="post-cover-hint">Screen readers announce the story title as the image description.</div>
+                  <div class="invalid-feedback">Enter a full http(s) URL.</div>
+                </div>
+                <div class="mb-4">
+                  <div class="d-flex justify-content-between align-items-baseline">
+                    <label class="form-label" for="post-content">Story</label>
+                    <span class="form-text mt-0">Markdown supported</span>
+                  </div>
+                  <textarea class="form-control" id="post-content" rows="12" placeholder="Share your story…" required></textarea>
+                  <div class="invalid-feedback">Write something before saving.</div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center gap-2">
+                  <button type="button" class="btn btn-link" id="reset-editor-btn">Reset</button>
+                  <button type="submit" class="btn btn-primary" id="save-post-btn">
+                    <i class="bi bi-check-lg"></i>
+                    Save story
+                  </button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <!-- Customise -->
+      <section class="tab-pane fade" id="customise-tab-pane" role="tabpanel" aria-labelledby="customise-tab" tabindex="0">
+        <div class="mb-4">
+          <h1 class="h2 mb-1">Blog customisation</h1>
+          <p class="text-muted mb-0">Personalise the look and feel of your blog. Preview applies colours to this page before you save.</p>
+        </div>
+
+        <form id="settings-form" class="d-flex flex-column gap-4" style="max-width: 860px" novalidate>
+          <section class="card" aria-labelledby="identity-heading">
+            <h2 class="card-title" id="identity-heading">Identity</h2>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label" for="site-title">Site title</label>
+                <input type="text" class="form-control" id="site-title" placeholder="NooblyJS Folio" aria-describedby="site-title-hint" required maxlength="80">
+                <div class="form-text" id="site-title-hint">The last word is set in the accent colour.</div>
+                <div class="invalid-feedback">A site title is required.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="site-tagline">Tagline <span class="text-muted fw-normal">(optional)</span></label>
+                <input type="text" class="form-control" id="site-tagline" placeholder="Notes on work, craft and courage" maxlength="160">
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="banner-image">Banner image URL <span class="text-muted fw-normal">(optional)</span></label>
+                <input type="url" class="form-control" id="banner-image" placeholder="https://example.com/banner.jpg" aria-describedby="banner-image-hint">
+                <div class="form-text" id="banner-image-hint">Shown across the top of the home page.</div>
+                <div class="invalid-feedback">Enter a full http(s) URL.</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card" aria-labelledby="colours-heading">
+            <h2 class="card-title" id="colours-heading">Colours</h2>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label" for="primary-color-text">Accent colour</label>
+                <div class="colour-input">
+                  <input type="color" class="form-control form-control-color" id="primary-color" aria-label="Pick accent colour" value="#C2471F">
+                  <input type="text" class="form-control" id="primary-color-text" value="#C2471F" spellcheck="false" autocomplete="off" aria-describedby="primary-color-hint">
+                </div>
+                <div class="form-text" id="primary-color-hint">Buttons, active links and highlights.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="background-color-text">Background colour</label>
+                <div class="colour-input">
+                  <input type="color" class="form-control form-control-color" id="background-color" aria-label="Pick background colour" value="#F5F1EE">
+                  <input type="text" class="form-control" id="background-color-text" value="#F5F1EE" spellcheck="false" autocomplete="off" aria-describedby="background-color-hint">
+                </div>
+                <div class="form-text" id="background-color-hint">The page ground behind everything.</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card" aria-labelledby="social-heading">
+            <h2 class="card-title" id="social-heading">Social links</h2>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label" for="link-twitter">X / Twitter</label>
+                <div class="input-group has-validation">
+                  <span class="input-group-text"><i class="bi bi-twitter-x"></i></span>
+                  <input type="url" class="form-control" id="link-twitter" placeholder="https://x.com/yourhandle">
+                  <div class="invalid-feedback">Enter a full http(s) URL.</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="link-instagram">Instagram</label>
+                <div class="input-group has-validation">
+                  <span class="input-group-text"><i class="bi bi-instagram"></i></span>
+                  <input type="url" class="form-control" id="link-instagram" placeholder="https://instagram.com/yourhandle">
+                  <div class="invalid-feedback">Enter a full http(s) URL.</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="link-tiktok">TikTok</label>
+                <div class="input-group has-validation">
+                  <span class="input-group-text"><i class="bi bi-tiktok"></i></span>
+                  <input type="url" class="form-control" id="link-tiktok" placeholder="https://tiktok.com/@yourhandle">
+                  <div class="invalid-feedback">Enter a full http(s) URL.</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="link-custom-name">Custom link name</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-pencil"></i></span>
+                  <input type="text" class="form-control" id="link-custom-name" placeholder="Website, LinkedIn, etc." maxlength="40">
+                </div>
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="link-custom-url">Custom link URL</label>
+                <div class="input-group has-validation">
+                  <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
+                  <input type="url" class="form-control" id="link-custom-url" placeholder="https://yourwebsite.com">
+                  <div class="invalid-feedback">Enter a full http(s) URL.</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="d-flex flex-wrap justify-content-end gap-2">
+            <button type="button" class="btn btn-link me-auto" id="reset-settings-btn">Reset</button>
+            <button type="button" class="btn btn-secondary" id="preview-settings-btn">
+              <i class="bi bi-eye"></i>
+              Preview
+            </button>
+            <button type="submit" class="btn btn-primary" id="save-settings-btn">Save settings</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/applications/blog/assets/ui.js"></script>
+  <script src="/applications/blog/assets/author.js" type="module"></script>
+</body>
+</html>

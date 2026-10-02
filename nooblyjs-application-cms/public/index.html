@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NooblyJS Wiki Application</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* Custom CSS for professional look */
+        :root {
+            --custom-primary: #0066cc;
+            --custom-secondary: #6c757d;
+            --custom-warning: #ffc107;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 80px 0 60px;
+        }
+        .robot-hero-img {
+            filter: drop-shadow(0 20px 40px rgba(0, 102, 204, 0.2));
+            animation: float 3s ease-in-out infinite;
+            max-width: 50%;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--custom-primary);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--custom-primary);
+        }
+        .tech-badge {
+            background-color: rgba(0, 102, 204, 0.1);
+            color: var(--custom-primary);
+            border: 1px solid rgba(0, 102, 204, 0.2);
+        }
+        .navbar-brand img {
+            border: 2px solid var(--custom-primary);
+            box-shadow: 0 2px 8px rgba(0, 102, 204, 0.3);
+        }
+        .footer {
+            background-color: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+        .markdown-content {
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .markdown-content h1,
+        .markdown-content h2,
+        .markdown-content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+        .markdown-content h1 {
+            font-size: 2rem;
+            color: var(--custom-primary);
+            border-bottom: 2px solid var(--custom-primary);
+            padding-bottom: 0.5rem;
+        }
+        .markdown-content h2 {
+            font-size: 1.5rem;
+            color: #0052a3;
+        }
+        .markdown-content h3 {
+            font-size: 1.25rem;
+        }
+        .markdown-content p {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .markdown-content ul,
+        .markdown-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .markdown-content li {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        .markdown-content code {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 0.3rem 0.6rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #e83e8c;
+        }
+        .markdown-content pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.25rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            border: 1px solid #444;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        .markdown-content pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+            border: none;
+        }
+        .markdown-content blockquote {
+            border-left: 4px solid var(--custom-primary);
+            margin-left: 0;
+            padding-left: 1.25rem;
+            color: #666;
+            font-style: italic;
+            background-color: #f8f9fa;
+            padding: 0.75rem 0.75rem 0.75rem 1.25rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        .documentation-item {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .documentation-item:hover {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--custom-primary);
+            padding-left: calc(1rem - 4px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top" id="header">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <i class="bi bi-book me-2" style="font-size: 1.5rem; color: var(--custom-primary);"></i>
+                <span class="fw-semibold">Wiki App</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="/applications/wiki" class="nav-link">Launch App</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#features" class="nav-link">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="https://github.com/nooblyjs/nooblyjs-apps-wiki" class="nav-link" target="_blank">GitHub</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">NooblyJS Wiki Application</h1>
+                    <p class="lead text-muted mb-4">A collaborative documentation and knowledge management platform built on the NooblyJS framework</p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="/applications/wiki" class="btn btn-primary btn-lg">
+                            <i class="bi bi-arrow-right-circle me-2"></i>Launch Application
+                        </a>
+                        <a href="#features" class="btn btn-outline-primary btn-lg">
+                            <i class="bi bi-info-circle me-2"></i>Learn More
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="images/nooblyjs-profile.png" alt="NooblyJS Profile" class="img-fluid" style="max-width: 100%; height: auto;">
+                </div>
+            </div>
+
+            <div class="row mt-5" id="features">
+                <!-- Features will be rendered here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row" id="stats-container">
+                <!-- Stats will be rendered here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">Key Features</h2>
+                <p class="lead text-muted">Everything you need for collaborative documentation</p>
+            </div>
+
+            <div class="row" id="service-grid">
+                <!-- Services will be rendered here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Section -->
+    <section class="py-5 bg-light" id="documentation-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">Documentation</h2>
+                <p class="lead text-muted">Browse published documentation and guides</p>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush" id="documentation-list">
+                                <li class="list-group-item text-muted text-center py-4">
+                                    <i class="bi bi-hourglass-split"></i> Loading documentation...
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Viewer -->
+    <div id="documentationViewer" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1050; padding: 2rem;">
+        <div style="width: 90%; height: 90%; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); display: flex; flex-direction: column;">
+            <!-- Header -->
+            <div style="border-bottom: 2px solid #f0f0f0; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;">
+                <h2 id="documentationTitle" style="margin: 0; font-weight: 600; color: var(--custom-primary); font-size: 1.5rem;">Documentation</h2>
+                <button id="closeDocumentation" onclick="closeDocumentation()" style="border: none; background: none; font-size: 1.5rem; cursor: pointer; color: #666; padding: 0;">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <!-- Content -->
+            <div style="flex: 1; overflow-y: auto; padding: 2rem;">
+                <div id="documentationContent" class="markdown-content">
+                    <p class="text-muted text-center">
+                        <i class="bi bi-hourglass-split"></i> Loading documentation...
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <h5 class="fw-bold mb-3">NooblyJS Wiki</h5>
+                    <p class="text-muted small">A modern, real-time collaborative documentation platform with AI-powered features, full-text search, and dynamic content generation.</p>
+                    <div class="d-flex flex-wrap gap-1">
+                        <span class="badge tech-badge rounded-pill">Node.js</span>
+                        <span class="badge tech-badge rounded-pill">Express</span>
+                        <span class="badge tech-badge rounded-pill">Socket.IO</span>
+                        <span class="badge tech-badge rounded-pill">Bootstrap 5</span>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 mb-4">
+                    <h5 class="fw-bold mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/applications/wiki" class="text-decoration-none text-muted small">Launch Application</a></li>
+                        <li><a href="#features" class="text-decoration-none text-muted small">Features</a></li>
+                        <li><a href="https://github.com/nooblyjs/nooblyjs-apps-wiki" class="text-decoration-none text-muted small" target="_blank">GitHub Repository</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 mb-4">
+                    <h5 class="fw-bold mb-3">Resources</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="https://github.com/nooblyjs/nooblyjs-core" class="text-decoration-none text-muted small" target="_blank">NooblyJS Core</a></li>
+                        <li><a href="/docs" class="text-decoration-none text-muted small">Documentation</a></li>
+                        <li><a href="https://github.com/nooblyjs" class="text-decoration-none text-muted small" target="_blank">GitHub Organization</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center gap-3">
+                        <a href="index.html" class="text-decoration-none d-flex align-items-center">
+                            <i class="bi bi-book me-2" style="font-size: 1.5rem; color: var(--custom-primary);"></i>
+                            <span class="fw-semibold text-dark">Wiki App</span>
+                        </a>
+                        <span class="text-muted small">&copy; 2025 NooblyJS</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6 text-md-end">
+                    <div class="d-flex gap-3 justify-content-md-end">
+                        <a href="https://github.com/nooblyjs" class="text-decoration-none text-muted small me-3" target="_blank">GitHub</a>
+                        <a href="#" class="text-decoration-none text-muted small me-3">Privacy</a>
+                        <a href="#" class="text-decoration-none text-muted small">Terms</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Features data
+        const features = [
+            {
+                icon: '📚',
+                title: 'Rich Document Editing',
+                description: 'Create and edit documents with full Markdown support, live preview, and syntax highlighting'
+            },
+            {
+                icon: '🔍',
+                title: 'Full-Text Search',
+                description: 'Instantly search across all documents and spaces with powerful indexing'
+            },
+            {
+                icon: '🤖',
+                title: 'AI-Powered Context',
+                description: 'Automatically generate documentation summaries with AI integration'
+            },
+            {
+                icon: '🌍',
+                title: 'Multi-Space Organization',
+                description: 'Create Personal, Shared, and Read-Only spaces for different purposes'
+            },
+            {
+                icon: '⚡',
+                title: 'Real-Time Collaboration',
+                description: 'See changes instantly across all connected users with WebSocket technology'
+            },
+            {
+                icon: '💾',
+                title: 'Multiple File Types',
+                description: 'Support for PDF, Word, Excel, PowerPoint, images, and code files'
+            }
+        ];
+
+        const stats = [
+            { number: '100%', label: 'Real-Time' },
+            { number: '7+', label: 'File Types' },
+            { number: '3', label: 'Default Spaces' },
+            { number: '∞', label: 'Scalability' }
+        ];
+
+        // Render features
+        const featuresContainer = document.getElementById('features');
+        if (featuresContainer) {
+            featuresContainer.innerHTML = features.map(feature => `
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">${feature.icon}</div>
+                            <h5 class="card-title">${feature.title}</h5>
+                            <p class="card-text text-muted">${feature.description}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render stats
+        const statsContainer = document.getElementById('stats-container');
+        if (statsContainer) {
+            statsContainer.innerHTML = stats.map(stat => `
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card h-100 text-center shadow-sm">
+                        <div class="card-body">
+                            <div class="stat-number">${stat.number}</div>
+                            <p class="card-text text-muted">${stat.label}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render key features
+        const serviceGrid = document.getElementById('service-grid');
+        if (serviceGrid) {
+            serviceGrid.innerHTML = `
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-3">Core</span>
+                            <h5 class="card-title">Document Management</h5>
+                            <p class="card-text text-muted">Create, organize, and manage documents with rich editing capabilities and templates</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-3">Advanced</span>
+                            <h5 class="card-title">Smart Search & Tags</h5>
+                            <p class="card-text text-muted">Fast full-text search with tag-based organization for efficient content discovery</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-3">Integration</span>
+                            <h5 class="card-title">Multi-Format Support</h5>
+                            <p class="card-text text-muted">Handle PDF, images, code files, and office documents seamlessly</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-3">Collaboration</span>
+                            <h5 class="card-title">Real-Time Updates</h5>
+                            <p class="card-text text-muted">Instant synchronization across all users with Socket.IO WebSocket technology</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-3">Intelligence</span>
+                            <h5 class="card-title">AI Integration</h5>
+                            <p class="card-text text-muted">Automatic context generation and AI-powered features for enhanced documentation</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-3">Security</span>
+                            <h5 class="card-title">Permission Controls</h5>
+                            <p class="card-text text-muted">Granular access control with personal, shared, and read-only spaces</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load and display documentation from API
+        async function loadDocumentation() {
+            try {
+                const response = await fetch('/applications/wiki/api/documentation/list');
+                const result = await response.json();
+
+                const docList = document.getElementById('documentation-list');
+
+                if (!result.success || result.docs.length === 0) {
+                    docList.innerHTML = '<li class="list-group-item text-muted text-center py-4">No documentation available</li>';
+                    return;
+                }
+
+                docList.innerHTML = result.docs.map(doc => {
+                    const docId = doc.id;
+                    const docName = doc.title;
+                    const description = doc.description || '';
+                    return `
+                        <li class="list-group-item documentation-item"
+                            onclick="viewDocumentation('${docId}', '${docName}')"
+                            style="cursor: pointer; padding: 1rem;">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div style="flex: 1;">
+                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                        <i class="bi bi-file-text me-2" style="color: var(--custom-primary); font-size: 1.1rem;"></i>
+                                        <strong style="color: var(--custom-primary);">${docName}</strong>
+                                    </div>
+                                    <p style="margin: 0; color: #666; font-size: 0.9rem; line-height: 1.4;">${description}</p>
+                                </div>
+                                <i class="bi bi-chevron-right text-muted ms-3" style="flex-shrink: 0;"></i>
+                            </div>
+                        </li>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading documentation:', error);
+                document.getElementById('documentation-list').innerHTML =
+                    '<li class="list-group-item text-danger text-center py-4">Error loading documentation</li>';
+            }
+        }
+
+        // View documentation in viewer
+        async function viewDocumentation(docId, docName) {
+            try {
+                const response = await fetch(`/applications/wiki/api/documentation/${docId}`);
+                const result = await response.json();
+
+                if (!result.success) {
+                    throw new Error('Failed to load documentation');
+                }
+
+                const content = result.content;
+
+                // Convert markdown to HTML (basic conversion)
+                const htmlContent = markdownToHtml(content);
+
+                document.getElementById('documentationTitle').textContent = docName;
+                document.getElementById('documentationContent').innerHTML = htmlContent;
+
+                // Show viewer
+                document.getElementById('documentationViewer').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            } catch (error) {
+                console.error('Error loading documentation file:', error);
+                alert('Error loading documentation file');
+            }
+        }
+
+        // Close documentation viewer
+        function closeDocumentation() {
+            document.getElementById('documentationViewer').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close viewer when clicking on overlay
+        document.addEventListener('DOMContentLoaded', function() {
+            const viewer = document.getElementById('documentationViewer');
+            viewer.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeDocumentation();
+                }
+            });
+        });
+
+        // Simple markdown to HTML converter
+        function markdownToHtml(markdown) {
+            let html = markdown;
+
+            // Headers
+            html = html.replace(/^### (.*?)$/gm, '<h3>$1</h3>');
+            html = html.replace(/^## (.*?)$/gm, '<h2>$1</h2>');
+            html = html.replace(/^# (.*?)$/gm, '<h1>$1</h1>');
+
+            // Bold
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/__(.*?)__/g, '<strong>$1</strong>');
+
+            // Italic
+            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            html = html.replace(/_(.*?)_/g, '<em>$1</em>');
+
+            // Links
+            html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+            // Code blocks
+            html = html.replace(/```([^`]*?)```/gs, '<pre><code>$1</code></pre>');
+
+            // Inline code
+            html = html.replace(/`([^`]*?)`/g, '<code>$1</code>');
+
+            // Blockquotes
+            html = html.replace(/^> (.*?)$/gm, '<blockquote>$1</blockquote>');
+
+            // Line breaks and paragraphs
+            html = html.replace(/\n\n/g, '</p><p>');
+            html = '<p>' + html + '</p>';
+
+            // Lists
+            html = html.replace(/^\* (.*?)$/gm, '<li>$1</li>');
+            html = html.replace(/^- (.*?)$/gm, '<li>$1</li>');
+            html = html.replace(/^\d+\. (.*?)$/gm, '<li>$1</li>');
+            html = html.replace(/(<li>.*?<\/li>)/s, (match) => {
+                if (match.includes('<ol>') || match.includes('<ul>')) return match;
+                return '<ul>' + match + '</ul>';
+            });
+
+            // Horizontal rules
+            html = html.replace(/^---$/gm, '<hr>');
+
+            return html;
+        }
+
+        // Load documentation on page load
+        document.addEventListener('DOMContentLoaded', loadDocumentation);
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+
+    <!-- Bootstrap 5 JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

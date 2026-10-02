@@ -1,0 +1,16 @@
+{
+  "name": "@nooblyjs/web-viewer",
+  "version": "2.0.0",
+  "description": "Wiki Web UI - Knowledge Management & Document Repository",
+  "author": "NooblyJS Team",
+  "license": "ISC",
+  "main": "index.js",
+  "scripts": {
+    "dev": "http-server public -p 3002 -c-1 --cors",
+    "serve": "http-server public -p 3002",
+    "start": "npm run serve"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

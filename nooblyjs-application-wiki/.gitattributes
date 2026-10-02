@@ -1,0 +1,27 @@
+# Normalise line endings on tracked files: stored as LF in the repo, checked out
+# as LF everywhere. Prevents CRLF creeping in from Windows editors (which caused
+# trailing-\r values in env files and literal-backslash/CR folders at runtime).
+* text=auto eol=lf
+
+# Explicit LF for the text formats this project uses.
+*.js     text eol=lf
+*.json   text eol=lf
+*.md     text eol=lf
+*.yml    text eol=lf
+*.yaml   text eol=lf
+*.sh     text eol=lf
+*.env    text eol=lf
+.env.example text eol=lf
+
+# Treat known binaries as binary (never line-ending-normalised).
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.pdf    binary
+*.docx   binary
+*.xlsx   binary
+*.pptx   binary
+*.ico    binary
+*.woff   binary
+*.woff2  binary

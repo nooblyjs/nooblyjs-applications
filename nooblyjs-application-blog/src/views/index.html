@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Stories, essays and notes.">
+  <title>NooblyJS Folio</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/applications/blog/assets/css/styles.css">
+  <link rel="stylesheet" href="/applications/blog/assets/css/blog.css">
+</head>
+<body>
+  <a class="visually-hidden-focusable btn btn-primary position-absolute m-2" href="#main">Skip to content</a>
+
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand blog-wordmark" href="/applications/blog" id="site-wordmark" data-action="go-home">NooblyJS <em>Folio</em></a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#site-nav-collapse" aria-controls="site-nav-collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-3"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="site-nav-collapse">
+        <ul class="navbar-nav me-auto gap-lg-3" id="site-nav" aria-label="Sections">
+          <li class="nav-item"><a class="nav-link active" href="/applications/blog#latest" data-nav="latest" aria-current="true">Latest</a></li>
+          <li class="nav-item"><a class="nav-link" href="/applications/blog#trending" data-nav="trending">Trending</a></li>
+          <li class="nav-item"><a class="nav-link" href="/applications/blog#topics" data-nav="topics">Topics</a></li>
+        </ul>
+
+        <form class="blog-search" id="post-search-form" role="search">
+          <label class="visually-hidden" for="post-search-input">Search stories</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input type="search" class="form-control" id="post-search-input" placeholder="Search stories  ( / )" autocomplete="off">
+          </div>
+        </form>
+
+        <a class="btn btn-primary btn-sm ms-lg-3" href="/applications/blog/author">
+          <i class="bi bi-pencil-square"></i>
+          Write
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main" tabindex="-1">
+    <div id="blog-app">
+      <!-- Home -->
+      <div id="home-view">
+        <div class="blog-banner" id="site-banner" hidden></div>
+
+        <section class="container pt-5" id="featured" aria-label="Featured story">
+          <p class="text-muted fst-italic is-loading">Loading the featured story…</p>
+        </section>
+
+        <div class="container py-5">
+          <div class="row g-5">
+            <section class="col-lg-8" id="latest" aria-labelledby="latest-heading">
+              <div class="d-flex justify-content-between align-items-baseline border-bottom pb-2 mb-4">
+                <h2 class="section-heading mb-0" id="latest-heading">Latest</h2>
+                <button type="button" class="btn btn-link btn-sm" id="clear-search-btn" hidden>Clear search</button>
+              </div>
+              <div id="latest-list" class="d-flex flex-column gap-3" aria-live="polite">
+                <p class="text-muted fst-italic is-loading">Loading stories…</p>
+              </div>
+            </section>
+
+            <aside class="col-lg-4" aria-label="More to explore">
+              <div class="blog-sidebar d-flex flex-column gap-4">
+                <section class="card" id="trending" aria-labelledby="trending-heading">
+                  <h2 class="section-heading mb-2" id="trending-heading">Trending</h2>
+                  <ol id="trending-list" class="list-unstyled blog-trending mb-0"></ol>
+                </section>
+
+                <section class="card" id="topics" aria-labelledby="topics-heading">
+                  <h2 class="section-heading mb-3" id="topics-heading">Topics</h2>
+                  <div id="topics-list" class="d-flex flex-wrap gap-2"></div>
+                </section>
+
+                <section class="card" id="about-panel" aria-labelledby="about-heading" hidden>
+                  <h2 class="card-title" id="about-heading"></h2>
+                  <p class="card-text" id="about-tagline"></p>
+                  <div class="blog-social" id="about-links"></div>
+                </section>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reader -->
+      <article id="reader-view" class="pt-4 pb-5" aria-labelledby="read-post-title" hidden>
+        <div class="container">
+          <a href="/applications/blog" class="btn btn-link mb-4" data-action="close-reader">
+            <i class="bi bi-arrow-left"></i>
+            All stories
+          </a>
+
+          <header class="blog-reader-header mx-auto text-center">
+            <span class="badge bg-primary mb-3" id="read-post-kicker"></span>
+            <h1 class="mb-3" id="read-post-title"></h1>
+            <p class="lead mb-3" id="read-post-dek"></p>
+            <p class="text-muted small" id="read-post-meta"></p>
+          </header>
+        </div>
+
+        <figure class="container blog-reader-cover mt-5 mb-0" id="read-post-cover" hidden></figure>
+
+        <div class="blog-reader-column mx-auto px-3 mt-5">
+          <div class="blog-reader-body" id="read-post-content"></div>
+
+          <div class="d-flex flex-wrap align-items-center gap-2 border-top border-bottom py-3 my-5" id="read-post-actions"></div>
+
+          <section aria-labelledby="discussion-heading">
+            <h2 class="mb-3" id="discussion-heading">Discussion <span class="text-muted fw-normal" id="read-post-comment-count">0</span></h2>
+            <div id="read-post-comments" class="mb-4" aria-live="polite"></div>
+
+            <form id="comment-form" class="card" novalidate>
+              <div class="mb-3">
+                <label class="form-label" for="comment-author">Your name</label>
+                <input type="text" class="form-control" id="comment-author" placeholder="Reader" autocomplete="name" maxlength="80">
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="comment-body">Comment</label>
+                <textarea class="form-control" id="comment-body" rows="4" placeholder="Be kind and constructive…" aria-describedby="comment-body-error"></textarea>
+                <div class="invalid-feedback" id="comment-body-error"></div>
+              </div>
+              <div class="text-end">
+                <button type="submit" class="btn btn-primary">Post comment</button>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <section class="container mt-5 pt-4" id="more-section" aria-labelledby="more-heading" hidden>
+          <h2 class="section-heading border-bottom pb-2 mb-4" id="more-heading">More from Folio</h2>
+          <div id="more-list" class="row row-cols-1 row-cols-md-3 g-4"></div>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <footer class="border-top mt-5 py-4">
+    <div class="container d-flex flex-column flex-md-row gap-3 justify-content-between align-items-md-center">
+      <div>
+        <a class="blog-wordmark blog-wordmark-small fw-bold text-reset" href="/applications/blog" id="footer-wordmark">NooblyJS <em>Folio</em></a>
+        <p class="small text-muted mb-0" id="footer-tagline" hidden></p>
+      </div>
+      <div class="blog-social" id="footer-links"></div>
+      <p class="small text-muted mb-0">© <span id="footer-year"></span></p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/applications/blog/assets/ui.js"></script>
+  <script src="/applications/blog/assets/app.js"></script>
+</body>
+</html>

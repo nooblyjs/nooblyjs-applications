@@ -1,0 +1,340 @@
+{
+  "name": "nooblyjs-knowledge-repository",
+  "displayName": "NooblyJS Wiki",
+  "description": "Browse, search and read your NooblyJS Wiki without leaving the editor.",
+  "version": "1.2.0",
+  "publisher": "nooblyjs",
+  "license": "UNLICENSED",
+  "icon": "media/nooblyjs-logo-colour.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nooblyjs/nooblyjs-apps-wiki"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "wiki",
+    "documentation",
+    "knowledge base"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true,
+      "description": "The extension only reads from the configured NooblyJS Wiki server and never executes workspace code."
+    },
+    "virtualWorkspaces": true
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "nooblyjs-knowledge-repository.setToken",
+        "title": "Set API Token",
+        "category": "NooblyJS Wiki",
+        "icon": "$(key)"
+      },
+      {
+        "command": "nooblyjs-knowledge-repository.testConnection",
+        "title": "Test Connection",
+        "category": "NooblyJS Wiki",
+        "icon": "$(plug)"
+      },
+      {
+        "command": "nooblyjs-knowledge-repository.openSettings",
+        "title": "Open Settings",
+        "category": "NooblyJS Wiki",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "nooblyjs-knowledge-repository.selectSpace",
+        "title": "Select Space",
+        "category": "NooblyJS Wiki",
+        "icon": "$(book)"
+      },
+      {
+        "command": "nooblyjs-knowledge-repository.refresh",
+        "title": "Refresh",
+        "category": "NooblyJS Wiki",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "nooblyjs-knowledge-repository.openFile",
+        "title": "Open Document",
+        "category": "NooblyJS Wiki"
+      },
+      {
+        "command": "nooblyjs-knowledge-repository.search",
+        "title": "Search",
+        "category": "NooblyJS Wiki",
+        "icon": "$(search)"
+      },
+      {
+        "command": "nooblyjs-knowledge-repository.clearSearch",
+        "title": "Clear Search Results",
+        "category": "NooblyJS Wiki",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "nooblyjs-knowledge-repository.searchAllSpaces",
+        "title": "Search All Spaces",
+        "category": "NooblyJS Wiki",
+        "icon": "$(globe)"
+      },
+      {
+        "command": "nooblyjs-knowledge-repository.searchThisSpace",
+        "title": "Search Current Space Only",
+        "category": "NooblyJS Wiki",
+        "icon": "$(book)"
+      },
+      {
+        "command": "nooblyjs-knowledge-repository.openInBrowser",
+        "title": "Open in Browser",
+        "category": "NooblyJS Wiki",
+        "icon": "$(link-external)"
+      },
+      {
+        "command": "nooblyjs-knowledge-repository.copyPath",
+        "title": "Copy Document Path",
+        "category": "NooblyJS Wiki"
+      },
+      {
+        "command": "nooblyjs-knowledge-repository.copyLink",
+        "title": "Copy Document Link",
+        "category": "NooblyJS Wiki"
+      },
+      {
+        "command": "nooblyjs-knowledge-repository.toggleStar",
+        "title": "Star / Unstar Document",
+        "category": "NooblyJS Wiki",
+        "icon": "$(star)"
+      },
+      {
+        "command": "nooblyjs-knowledge-repository.showOutput",
+        "title": "Show Log",
+        "category": "NooblyJS Wiki",
+        "icon": "$(output)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "nooblyjs-knowledge-repository",
+          "title": "NooblyJS Wiki",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "nooblyjs-knowledge-repository": [
+        {
+          "id": "nooblyjs-knowledge-repository.explorer",
+          "name": "Files",
+          "icon": "media/icon.svg",
+          "contextualTitle": "NooblyJS Wiki"
+        },
+        {
+          "id": "nooblyjs-knowledge-repository.search",
+          "name": "Search",
+          "icon": "$(search)"
+        },
+        {
+          "id": "nooblyjs-knowledge-repository.recent",
+          "name": "Recent",
+          "icon": "$(history)",
+          "visibility": "collapsed"
+        },
+        {
+          "id": "nooblyjs-knowledge-repository.starred",
+          "name": "Starred",
+          "icon": "$(star-full)",
+          "visibility": "collapsed"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "nooblyjs-knowledge-repository.explorer",
+        "when": "!nooblyjs-knowledge-repository.hasToken",
+        "contents": "To browse the NooblyJS Wiki, add your personal API token.\n\nCreate one in the wiki under **Profile → API tokens** — it is shown once, so copy it straight away.\n[Enter API Token](command:nooblyjs-knowledge-repository.setToken)\nCheck the server URL in [settings](command:nooblyjs-knowledge-repository.openSettings) if you are not pointing at the right wiki."
+      },
+      {
+        "view": "nooblyjs-knowledge-repository.explorer",
+        "when": "nooblyjs-knowledge-repository.hasToken && !nooblyjs-knowledge-repository.authenticated",
+        "contents": "Your API token was not accepted, or the server could not be reached.\n[Test Connection](command:nooblyjs-knowledge-repository.testConnection)\n[Enter API Token](command:nooblyjs-knowledge-repository.setToken)\n[Open Settings](command:nooblyjs-knowledge-repository.openSettings)"
+      },
+      {
+        "view": "nooblyjs-knowledge-repository.explorer",
+        "when": "nooblyjs-knowledge-repository.authenticated",
+        "contents": "Choose a space to start browsing.\n[Select Space](command:nooblyjs-knowledge-repository.selectSpace)"
+      },
+      {
+        "view": "nooblyjs-knowledge-repository.search",
+        "when": "!nooblyjs-knowledge-repository.authenticated",
+        "contents": "Add your API token to search the wiki.\n[Enter API Token](command:nooblyjs-knowledge-repository.setToken)"
+      },
+      {
+        "view": "nooblyjs-knowledge-repository.recent",
+        "when": "!nooblyjs-knowledge-repository.authenticated",
+        "contents": "Add your API token to see documents you have opened recently.\n[Enter API Token](command:nooblyjs-knowledge-repository.setToken)"
+      },
+      {
+        "view": "nooblyjs-knowledge-repository.starred",
+        "when": "!nooblyjs-knowledge-repository.authenticated",
+        "contents": "Add your API token to see your starred documents.\n[Enter API Token](command:nooblyjs-knowledge-repository.setToken)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "nooblyjs-knowledge-repository.openFile",
+          "when": "false"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.copyPath",
+          "when": "false"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.copyLink",
+          "when": "false"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.openInBrowser",
+          "when": "false"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.toggleStar",
+          "when": "false"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.openSettings",
+          "when": "false"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "nooblyjs-knowledge-repository.setToken",
+          "when": "view =~ /^nooblyjs-knowledge-repository/ && !nooblyjs-knowledge-repository.authenticated",
+          "group": "navigation@1"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.selectSpace",
+          "when": "view == nooblyjs-knowledge-repository.explorer && nooblyjs-knowledge-repository.authenticated",
+          "group": "navigation@1"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.refresh",
+          "when": "view =~ /^nooblyjs-knowledge-repository\\.(explorer|recent|starred)$/ && nooblyjs-knowledge-repository.authenticated",
+          "group": "navigation@2"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.search",
+          "when": "view == nooblyjs-knowledge-repository.search && nooblyjs-knowledge-repository.authenticated",
+          "group": "navigation@1"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.searchAllSpaces",
+          "when": "view == nooblyjs-knowledge-repository.search && nooblyjs-knowledge-repository.authenticated && !nooblyjs-knowledge-repository.searchAllSpaces",
+          "group": "navigation@2"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.searchThisSpace",
+          "when": "view == nooblyjs-knowledge-repository.search && nooblyjs-knowledge-repository.authenticated && nooblyjs-knowledge-repository.searchAllSpaces",
+          "group": "navigation@2"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.clearSearch",
+          "when": "view == nooblyjs-knowledge-repository.search && nooblyjs-knowledge-repository.authenticated",
+          "group": "navigation@3"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.setToken",
+          "when": "view =~ /^nooblyjs-knowledge-repository/",
+          "group": "1_account@1"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.testConnection",
+          "when": "view =~ /^nooblyjs-knowledge-repository/",
+          "group": "1_account@2"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.openSettings",
+          "when": "view =~ /^nooblyjs-knowledge-repository/",
+          "group": "1_account@3"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.showOutput",
+          "when": "view =~ /^nooblyjs-knowledge-repository/",
+          "group": "1_account@4"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "nooblyjs-knowledge-repository.openInBrowser",
+          "when": "view =~ /^nooblyjs-knowledge-repository/ && viewItem =~ /^wiki(File|SearchResult|RecentItem|StarredItem)$/",
+          "group": "navigation@1"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.toggleStar",
+          "when": "view =~ /^nooblyjs-knowledge-repository/ && viewItem =~ /^wiki(File|SearchResult|RecentItem|StarredItem)$/",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.copyPath",
+          "when": "view =~ /^nooblyjs-knowledge-repository/ && viewItem =~ /^wiki(File|Folder|SearchResult|RecentItem|StarredItem)$/",
+          "group": "2_copy@1"
+        },
+        {
+          "command": "nooblyjs-knowledge-repository.copyLink",
+          "when": "view =~ /^nooblyjs-knowledge-repository/ && viewItem =~ /^wiki(File|SearchResult|RecentItem|StarredItem)$/",
+          "group": "2_copy@2"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "NooblyJS Wiki",
+      "properties": {
+        "nooblyjs-knowledge-repository.serverUrl": {
+          "type": "string",
+          "default": "https://localhost:9101",
+          "scope": "machine",
+          "markdownDescription": "Base URL of the NooblyJS Wiki server — for example `https://wiki.example.com`.\n\nMachine-scoped on purpose: a workspace must not be able to redirect the extension, and with it your API token, at another server."
+        },
+        "nooblyjs-knowledge-repository.apiToken": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "markdownDescription": "Your personal API token, starting `dtk_`.\n\nCreate one in the wiki under **Profile → API tokens**. It is shown once — copy it straight into this field. The token acts as you, with your roles, so the extension sees exactly the spaces you can see. Revoking it on the same screen takes effect immediately.\n\nMachine-scoped, so it is never written to workspace settings and never leaves this machine through Settings Sync. It is still stored in plain text in your user `settings.json` — treat it like any other credential on disk, and revoke it in the wiki if it is exposed."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run sync && npm run compile",
+    "sync": "node scripts/sync-assets.js",
+    "sync:check": "node scripts/sync-assets.js --check",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "check": "npm run sync:check && npm run compile && npm run lint",
+    "package": "npm run check && vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "16.x",
+    "@types/vscode": "^1.75.0",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "marked": "4.3.0",
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}

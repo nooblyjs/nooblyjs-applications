@@ -1,0 +1,178 @@
+/**
+ * Design Tokens
+ * Spec: Reader Side-Panel Design System
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Figtree:wght@400;600;700;800&display=swap');
+
+:root {
+  /* Colors — Primary Teal */
+  --teal-600: #1e6f63;           /* header gradient start */
+  --teal-700: #15534a;           /* header gradient end */
+  --teal-500: #1d6b5f;           /* primary accents, active states */
+  --teal-300: #1c6b5f;           /* pill text color */
+  --teal-bg: #e6f2ef;            /* pill backgrounds, md file chips */
+
+  /* Colors — Secondary */
+  --orange: #e8492b;             /* brand mark, space glyph */
+  --red-text: #c0492b;           /* delete pill text */
+  --red-bg: #fbeae6;             /* delete pill background */
+  --green-text: #2e7d4f;         /* create pill text */
+  --green-bg: #e7f5ec;           /* create pill background */
+  --blue-text: #2f6fb0;          /* reads pill text */
+  --blue-bg: #e8f0fb;            /* reads pill background */
+  --purple-text: #a9772a;        /* private pill text */
+  --purple-bg: #fdf3e0;          /* private pill background */
+  --pink-text: #b03a64;          /* confidential pill text */
+  --pink-bg: #fdeaf0;            /* confidential pill background */
+
+  /* Colors — Neutral */
+  --gray-bg-light: #f1f6f5;      /* grounding strip background */
+  --gray-bg: #f6f8f8;            /* content area background */
+  --gray-input: #f2f5f4;         /* input field background */
+  --white: #ffffff;              /* surfaces */
+  --border-light: #e8eded;       /* default borders */
+  --border-mid: #e6ebea;         /* medium borders */
+  --border-subtle: #e2e8e7;      /* subtle borders */
+  --border-input: #e0e8e7;       /* input borders */
+
+  /* Text Colors */
+  --text-strong: #16332e;        /* headings (H1, H2) */
+  --text-strong-2: #1f322e;      /* headings (labels) */
+  --text-body: #26352f;          /* body text, list items */
+  --text-muted: #6a7672;         /* secondary text, descriptions */
+  --text-muted-2: #5c6b67;       /* descriptions in cards */
+  --text-faint: #86938f;         /* metadata, timestamps */
+  --text-faint-2: #9aa8a4;       /* inactive, disabled */
+  --text-faint-3: #a3afab;       /* time labels */
+
+  /* Typography */
+  --font-display: 'Nunito', sans-serif;
+  --font-body: 'Figtree', sans-serif;
+
+  /* Font Sizes */
+  --text-xs: 9.5px;              /* eyebrows */
+  --text-sm: 11px;               /* metadata, small labels */
+  --text-sm-2: 11.5px;           /* breadcrumbs, context lines */
+  --text-sm-3: 12px;             /* secondary text */
+  --text-base: 12.5px;           /* body text in descriptions */
+  --text-base-2: 13px;           /* standard body text */
+  --text-base-3: 13.5px;         /* larger body text */
+  --text-lg: 14px;               /* current folder label */
+  --text-lg-2: 14.5px;           /* wordmark */
+  --text-xl: 15px;               /* logo mark font */
+  --text-2xl: 17px;              /* section header */
+  --text-3xl: 19px;              /* H1 heading */
+
+  /* Font Weights */
+  --font-regular: 400;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+
+  /* Spacing */
+  --radius-xs: 5px;              /* small buttons, tags */
+  --radius-sm: 6px;              /* input fields, control items */
+  --radius-md: 9px;              /* cards, file chips */
+  --radius-lg: 11px;             /* list items */
+  --radius-xl: 13px;             /* larger cards */
+  --radius-pill: 22px;           /* pill buttons, input fields */
+  --radius-round: 20px;          /* icon tiles */
+  --radius-full: 999px;          /* completely round (badges) */
+
+  /* Spacing Scale */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 14px;
+  --spacing-xl: 16px;
+  --spacing-2xl: 18px;
+
+  /* Sizes */
+  --header-height: 48px;
+  --input-bar-height: 56px;
+  --tab-bar-height: 64px;
+  --icon-size-sm: 16px;
+  --icon-size-md: 20px;
+  --icon-size-lg: 24px;
+  --icon-size-xl: 28px;
+  --icon-size-2xl: 30px;
+  --icon-size-3xl: 32px;
+  --icon-size-avatar: 38px;
+  --icon-size-large: 64px;
+
+  /* Line Height */
+  --line-tight: 1.05;
+  --line-normal: 1.5;
+  --line-relaxed: 1.6;
+
+  /* Shadows */
+  --shadow-card: 0 26px 60px -24px rgba(16, 60, 54, 0.45);
+
+  /* Transitions */
+  --transition-fast: 120ms;
+  --transition-normal: 200ms;
+  --transition-slow: 300ms;
+}
+
+/* Ensure consistent baseline */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-base-2);
+  color: var(--text-body);
+  background: var(--white);
+  line-height: var(--line-normal);
+}
+
+/* Headings */
+h1 {
+  font-family: var(--font-display);
+  font-weight: var(--font-extrabold);
+  font-size: var(--text-3xl);
+  color: var(--text-strong);
+  margin: 0;
+  line-height: var(--line-tight);
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-weight: var(--font-bold);
+  font-size: var(--text-2xl);
+  color: var(--text-strong);
+  margin: 0;
+}
+
+h3 {
+  font-family: var(--font-display);
+  font-weight: var(--font-extrabold);
+  font-size: var(--text-lg);
+  color: var(--text-strong-2);
+  margin: 0;
+}
+
+/* Utility Classes */
+.hidden {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

@@ -1,0 +1,1450 @@
+/* NooblyJS Wiki Extension Styles */
+/* KR Modern theme — same palette and typography as the main wiki + datasources apps */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* KR teal palette */
+  --kr-teal-900: #0a3d3d;
+  --kr-teal-800: #0d4f4f;
+  --kr-teal-700: #0e6362;
+  --kr-teal-600: #0f7a78;   /* primary */
+  --kr-teal-500: #149e9b;
+  --kr-teal-400: #2bb8b4;
+  --kr-teal-100: #d9efee;
+  --kr-teal-50:  #ecf6f5;
+
+  --kr-ink-900: #0d1c1c;
+  --kr-ink-700: #2b3a3a;
+  --kr-ink-500: #5a6b6b;
+  --kr-ink-400: #7d8e8e;
+  --kr-ink-300: #a6b3b3;
+
+  --kr-bg:        #f4f7f7;
+  --kr-surface:   #ffffff;
+  --kr-surface-2: #fbfcfc;
+  --kr-border:    #e3eaea;
+  --kr-border-2:  #eef2f2;
+
+  --kr-success: #1f8a5b;
+  --kr-warning: #c98019;
+  --kr-danger:  #c2484a;
+  --kr-info:    #2a6fdb;
+
+  --kr-radius-sm: 6px;
+  --kr-radius:    10px;
+  --kr-radius-lg: 14px;
+
+  --kr-shadow-sm: 0 1px 2px rgba(10,40,40,.04), 0 1px 1px rgba(10,40,40,.03);
+  --kr-shadow:    0 1px 3px rgba(10,40,40,.06), 0 4px 12px rgba(10,40,40,.04);
+  --kr-shadow-lg: 0 12px 32px -8px rgba(10,40,40,.12), 0 4px 8px rgba(10,40,40,.04);
+
+  /* Compatibility aliases — older code in this stylesheet still uses these. */
+  --bs-primary: var(--kr-teal-600);
+  --bs-primary-rgb: 15, 122, 120;
+  --bs-light: var(--kr-surface-2);
+  --bs-border-color: var(--kr-border);
+  --bs-body-bg: var(--kr-surface);
+  --bs-dark: var(--kr-ink-900);
+  --bs-text-muted: var(--kr-ink-500);
+  --text-primary: var(--kr-ink-900);
+  --text-secondary: var(--kr-ink-500);
+  --app-border-radius: 8px;
+  --app-shadow-sm: var(--kr-shadow-sm);
+  --app-shadow: var(--kr-shadow);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 8px;
+  height: 100%;
+}
+
+body {
+  font-family: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 8px;
+  color: var(--kr-ink-900);
+  background-color: var(--kr-bg);
+  /* Side panel: fill the full width/height of the (user-resizable) panel
+     rather than the fixed 800x600 box a toolbar popup used. */
+  width: 100%;
+  height: 100vh;
+  min-width: 0;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* View Management */
+.view {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Login View Specific */
+.login-view {
+  background: linear-gradient(135deg, var(--kr-teal-50) 0%, #fff 50%, var(--kr-bg) 100%);
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.view.hidden {
+  display: none;
+}
+
+/* Auth Container and Card */
+.auth-container {
+  width: 100%;
+  max-width: 320px;
+}
+
+.auth-card {
+  background: var(--kr-surface);
+  border: 1px solid var(--kr-border);
+  border-radius: var(--kr-radius-lg);
+  box-shadow: var(--kr-shadow-lg);
+  overflow: hidden;
+}
+
+.auth-card .card-body {
+  padding: 24px 24px;
+}
+
+.logo-section {
+  margin-bottom: 18px;
+}
+
+.logo-placeholder {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--kr-radius);
+  background: linear-gradient(135deg, var(--kr-teal-50), var(--kr-teal-100));
+  padding: 6px;
+}
+
+.logo-placeholder svg {
+  width: 100%;
+  height: 100%;
+}
+
+.logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.logo-section .app-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--kr-ink-900);
+  letter-spacing: -.01em;
+  margin: 8px 0 4px;
+}
+
+.welcome-text {
+  font-size: 9px;
+  color: var(--kr-ink-500);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.signup-section {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--kr-border-2);
+  text-align: center;
+}
+
+.signup-text {
+  font-size: 9px;
+  color: var(--kr-ink-500);
+  margin: 0 0 10px;
+}
+
+/* Header — KR teal gradient topbar */
+.header {
+  background: linear-gradient(180deg, var(--kr-teal-800) 0%, var(--kr-teal-700) 100%);
+  color: #fff;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  flex-shrink: 0;
+}
+
+.app-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -.005em;
+  margin: 0;
+}
+
+.app-subtitle {
+  font-size: 9px;
+  margin: 4px 0 0 0;
+  opacity: 0.7;
+  font-weight: 500;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.icon-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: rgba(255,255,255,.85);
+  cursor: pointer;
+  padding: 7px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color .15s;
+}
+
+.icon-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+/* In the header, keep buttons compact so the bar stays a single-line height */
+.header .icon-btn {
+  padding: 4px;
+}
+
+.header .icon-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Content Area */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px;
+  background: var(--kr-bg);
+}
+
+.doc-content {
+  padding: 20px;
+}
+
+/* Form Styles — KR look */
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 9px;
+  color: var(--kr-ink-700);
+  letter-spacing: .02em;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--kr-border);
+  border-radius: 9px;
+  font-size: 10px;
+  font-family: inherit;
+  color: var(--kr-ink-900);
+  background-color: var(--kr-surface-2);
+  transition: all .15s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--kr-teal-500);
+  background-color: #fff;
+  box-shadow: 0 0 0 3px var(--kr-teal-50);
+}
+
+/* Buttons — kr-btn style */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  height: 36px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 9px;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+
+.btn-primary {
+  background: var(--kr-teal-600);
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(15,122,120,.3);
+}
+
+.btn-primary:hover {
+  background: var(--kr-teal-700);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--kr-teal-600);
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(15,122,120,.3);
+}
+
+.btn-secondary:hover {
+  background: var(--kr-teal-700);
+}
+
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-outline-primary {
+  background: var(--kr-teal-50);
+  color: var(--kr-teal-700);
+  border: 1px solid var(--kr-teal-100);
+  font-weight: 600;
+}
+
+.btn-outline-primary:hover {
+  background: #fff;
+  border-color: var(--kr-teal-400);
+}
+
+.btn-outline-primary:active {
+  transform: scale(0.98);
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error Message — kr-chip danger feel */
+.error-message {
+  padding: 9px 12px;
+  margin-bottom: 12px;
+  background: #fdebec;
+  color: var(--kr-danger);
+  border: 1px solid #f5cfd1;
+  border-radius: 9px;
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.error-message.hidden {
+  display: none;
+}
+
+/* Spaces List — kr-space-card style */
+.spaces-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.space-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background: var(--kr-surface);
+  border: 1px solid var(--kr-border);
+  border-radius: var(--kr-radius);
+  box-shadow: var(--kr-shadow-sm);
+  cursor: pointer;
+  transition: all .15s ease;
+}
+
+.space-item:hover {
+  border-color: var(--kr-teal-100);
+  transform: translateY(-1px);
+  box-shadow: var(--kr-shadow);
+}
+
+.space-icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--kr-teal-50);
+  border-radius: 8px;
+  color: var(--kr-teal-700);
+  flex-shrink: 0;
+}
+
+.space-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.space-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.space-name {
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--kr-ink-900);
+  margin-bottom: 2px;
+  letter-spacing: -.005em;
+}
+
+.space-description {
+  font-size: 9px;
+  color: var(--kr-ink-500);
+  line-height: 1.45;
+}
+
+/* Recent Activity Section */
+.recent-activity-section {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--kr-border-2);
+}
+
+.recent-activity-section.hidden {
+  display: none;
+}
+
+.activity-header {
+  margin-bottom: 12px;
+}
+
+.activity-header h3 {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--kr-ink-900);
+  margin: 0;
+  letter-spacing: -.005em;
+}
+
+.activity-documents {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.activity-space-group {
+  margin-bottom: 10px;
+}
+
+.activity-space-title {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--kr-ink-400);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  padding: 4px 0;
+  margin-bottom: 6px;
+}
+
+.activity-doc-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--kr-surface);
+  border: 1px solid var(--kr-border);
+  border-radius: var(--kr-radius);
+  box-shadow: var(--kr-shadow-sm);
+  cursor: pointer;
+  transition: all .15s ease;
+  font-size: 9px;
+}
+
+.activity-doc-item:hover {
+  border-color: var(--kr-teal-100);
+  transform: translateY(-1px);
+  box-shadow: var(--kr-shadow);
+}
+
+/* Teal-tinted tile holding the file-type icon — matches the standard list view.
+   The renderer puts the file-type's brand color inline (style="color: …"); we
+   override it here so every row reads consistently in the kr-teal palette. */
+.activity-doc-icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--kr-teal-50);
+  border: 1px solid var(--kr-teal-100);
+  border-radius: 8px;
+  color: var(--kr-teal-700) !important;
+  flex-shrink: 0;
+}
+
+.activity-doc-icon svg,
+.activity-doc-icon i {
+  width: 18px;
+  height: 18px;
+  font-size: 16px;
+  color: inherit !important;
+}
+
+.activity-doc-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-doc-name {
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--kr-ink-900);
+  letter-spacing: -.005em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 3px;
+}
+
+.activity-doc-meta {
+  font-size: 8px;
+  color: var(--kr-ink-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activity-doc-badge {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  flex-shrink: 0;
+  cursor: help;
+  color: var(--kr-ink-300) !important;  /* mute the inline grey/yellow swatch */
+}
+
+.activity-doc-badge[title="Starred"] {
+  color: #e3a73a !important;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  line-height: 1;
+  scrollbar-width: none; /* Firefox — keep to a single line, no scrollbar gutter */
+}
+
+.breadcrumb::-webkit-scrollbar {
+  display: none; /* Chrome/Edge — hide the horizontal scrollbar so height stays single-line */
+}
+
+.breadcrumb-item {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,.85);
+  font-size: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 5px;
+  transition: background-color .15s, color .15s;
+  font-family: inherit;
+}
+
+.breadcrumb-item:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.breadcrumb-item::after {
+  content: '›';
+  margin-left: 8px;
+  opacity: 0.55;
+  font-size: 11px;
+}
+
+.breadcrumb-item:last-child {
+  color: #fff;
+  font-weight: 600;
+}
+
+.breadcrumb-item:last-child::after {
+  display: none;
+}
+
+/* Suppress Bootstrap's own divider — we render our own via ::after above */
+.breadcrumb-item + .breadcrumb-item::before {
+  content: none;
+  padding-right: 0;
+}
+
+.breadcrumb-item + .breadcrumb-item {
+  padding-left: 0;
+}
+
+.breadcrumb-current {
+  opacity: 0.85;
+  cursor: default;
+}
+
+.breadcrumb-current:hover {
+  background-color: transparent;
+}
+
+/* Split Layout */
+.split-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  overflow: hidden;
+}
+
+.nav-panel {
+  /* Proportional default so the content panel stays readable in a narrow
+     side panel; the resize handle can still drag it up to 500px (inline px). */
+  width: 40%;
+  min-width: 120px;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+  background: var(--kr-surface);
+  border-right: 1px solid var(--kr-border);
+}
+
+.resize-handle {
+  width: 4px;
+  cursor: col-resize;
+  background-color: var(--kr-border);
+  flex-shrink: 0;
+  transition: background-color .15s;
+}
+
+.resize-handle:hover,
+.resize-handle.active {
+  background-color: var(--kr-teal-400);
+}
+
+.content-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+  background: var(--kr-bg);
+}
+
+/* Public Space Layout - Hide left nav, full-width content */
+.split-container.public-space-layout .nav-panel {
+  display: none;
+}
+
+.split-container.public-space-layout .content-panel {
+  width: 100%;
+}
+
+.content-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--kr-border);
+  background: var(--kr-surface);
+  flex-shrink: 0;
+}
+
+.content-header.hidden {
+  display: none;
+}
+
+.content-title {
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--kr-ink-900);
+  letter-spacing: -.005em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+/* Doc toolbar action buttons — mirrors the wiki's .kr-btn.ghost.sm so the
+   chrome extension header reads consistently with the web app. */
+.content-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.content-header .kr-btn {
+  height: 25px;
+  padding: 0 9px;
+  border-radius: 7px;
+  border: 0;
+  font-weight: 600;
+  font-size: 9px;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: background-color .15s ease, color .15s ease;
+}
+
+.content-header .kr-btn.ghost {
+  background: transparent;
+  color: var(--kr-ink-700);
+}
+
+.content-header .kr-btn.ghost:hover {
+  background: var(--kr-border-2);
+  color: var(--kr-teal-700);
+}
+
+.content-header .kr-btn i {
+  font-size: 11px;
+  line-height: 1;
+}
+
+/* Active/toggled states for pin + star. Star uses warm yellow, pin uses
+   teal so the two are visually distinguishable when both are on. */
+.content-header .star-btn.starred {
+  color: #c98019;
+}
+.content-header .star-btn.starred i {
+  color: #e3a73a;
+}
+
+.content-header .pin-btn.pinned {
+  color: var(--kr-teal-700);
+}
+.content-header .pin-btn.pinned i {
+  color: var(--kr-teal-600);
+}
+
+.content-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 22px;
+  background: var(--kr-surface);
+}
+
+.welcome-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 200px;
+  color: var(--kr-ink-400);
+  text-align: center;
+  gap: 10px;
+}
+
+.welcome-message svg {
+  color: var(--kr-teal-300, var(--kr-teal-100));
+}
+
+.welcome-message p {
+  margin: 0;
+  font-size: 11px;
+  color: var(--kr-ink-500);
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--kr-border);
+  background: var(--kr-surface);
+  flex-shrink: 0;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px 8px;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--kr-ink-500);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all .15s;
+  letter-spacing: .02em;
+}
+
+.tab:hover {
+  color: var(--kr-teal-700);
+  background: var(--kr-teal-50);
+}
+
+.tab.active {
+  color: var(--kr-teal-700);
+  border-bottom-color: var(--kr-teal-600);
+}
+
+/* Tab Content */
+.tab-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-pane {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.tab-pane.hidden {
+  display: none;
+}
+
+/* Active file highlight */
+.file-item.active {
+  background: var(--kr-teal-100);
+}
+.file-item.active .file-name { color: var(--kr-teal-800); font-weight: 700; }
+.file-item.active .file-icon { color: var(--kr-teal-700) !important; }
+
+/* Files List — compact kr-tree-node rows that match the standard sidebar.
+   The renderer outputs both a name AND a meta line ("Markdown" / "Text") —
+   the meta is redundant in a navigation tree, so it's hidden here. */
+.files-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 8px 6px;
+}
+
+.file-item,
+.folder-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  min-height: 28px;
+  border-radius: 7px;
+  color: var(--kr-ink-700);
+  cursor: pointer;
+  transition: background-color .12s;
+}
+
+.file-item:hover,
+.folder-item:hover {
+  background: var(--kr-teal-50);
+}
+
+/* Icon: small, single colour — overrides the inline file-type colour from
+   the renderer (style="color: #0052cc"). Folders get teal; files get muted ink. */
+.file-icon,
+.folder-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--kr-ink-400) !important;
+}
+
+.folder-item .folder-icon {
+  color: var(--kr-teal-600) !important;
+}
+
+.file-icon svg,
+.folder-icon svg {
+  width: 14px;
+  height: 14px;
+  color: inherit !important;
+}
+
+.file-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.file-name {
+  font-weight: 500;
+  font-size: 10px;
+  margin-bottom: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--kr-ink-700);
+  flex: 1;
+  min-width: 0;
+}
+
+/* Hide the per-row "Markdown" / "Text" type label — the icon already conveys
+   that, and showing it puts every row on two lines. */
+.file-meta {
+  display: none;
+}
+
+/* Two-level navigation peek — each top-level folder also lists its immediate
+   children, indented under the parent so the user can skip-jump one level. */
+.folder-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.folder-children {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 1px 0 2px 14px;
+  padding-left: 8px;
+  border-left: 1px dashed var(--kr-border);
+}
+
+.folder-item-nested,
+.file-item-nested {
+  padding: 3px 6px;
+  min-height: 22px;
+}
+
+.folder-item-nested .folder-icon,
+.file-item-nested .file-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.folder-item-nested .folder-icon svg,
+.file-item-nested .file-icon svg {
+  width: 11px;
+  height: 11px;
+}
+
+.folder-item-nested .file-name,
+.file-item-nested .file-name {
+  font-size: 9px;
+  color: var(--kr-ink-600);
+}
+
+/* In search results / starred / recent panels we still want to show the path
+   metadata — those renderers put a path in .file-meta, so re-enable it there. */
+.search-results-dropdown .file-meta,
+#recentList .file-meta,
+#starredList .file-meta {
+  display: block;
+  font-size: 8px;
+  color: var(--kr-ink-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.search-results-dropdown .file-info,
+#recentList .file-info,
+#starredList .file-info {
+  display: block;
+}
+
+/* Search Bar — kr-search look (above split layout) */
+.search-bar {
+  position: relative;
+  padding: 10px 14px;
+  background: var(--kr-surface);
+  border-bottom: 1px solid var(--kr-border);
+  flex-shrink: 0;
+}
+
+.search-bar-input {
+  width: 100%;
+  height: 34px;
+  padding: 0 12px 0 36px;
+  border: 1px solid var(--kr-border);
+  border-radius: 9px;
+  font-size: 10px;
+  font-family: inherit;
+  background-color: var(--kr-surface-2);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 16 16' fill='%237d8e8e'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px center;
+}
+
+.search-bar-input:focus {
+  outline: none;
+  border-color: var(--kr-teal-500);
+  background-color: #fff;
+  box-shadow: 0 0 0 3px var(--kr-teal-50);
+}
+
+.search-results-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 14px;
+  right: 14px;
+  margin-top: 4px;
+  background: var(--kr-surface);
+  border: 1px solid var(--kr-border);
+  border-radius: var(--kr-radius);
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: var(--kr-shadow-lg);
+}
+
+.search-results-dropdown.hidden {
+  display: none;
+}
+
+.search-results-dropdown .file-item {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--kr-border-2);
+  border-radius: 0;
+}
+
+.search-results-dropdown .file-item:last-child {
+  border-bottom: none;
+}
+
+.search-results-dropdown .empty-state,
+.search-results-dropdown .loading {
+  padding: 16px;
+  font-size: 10px;
+  color: var(--kr-ink-500);
+}
+
+/* Document Viewer — KR doc-paper typography */
+.doc-title {
+  flex: 1;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: -.005em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 12px;
+  color: var(--kr-ink-900);
+}
+
+.doc-content {
+  line-height: 1.65;
+  color: var(--kr-ink-700);
+  font-size: 10.5px;
+}
+
+.doc-content h1,
+.doc-content h2,
+.doc-content h3,
+.doc-content h4,
+.doc-content h5,
+.doc-content h6 {
+  margin-top: 22px;
+  margin-bottom: 10px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--kr-ink-900);
+  letter-spacing: -.01em;
+}
+
+.doc-content h1 { font-size: 20px; font-weight: 800; }
+.doc-content h2 { font-size: 14px; }
+.doc-content h3 { font-size: 12px; }
+.doc-content h4 { font-size: 11px; }
+.doc-content h5 { font-size: 10px; }
+.doc-content h6 { font-size: 9px; text-transform: uppercase; letter-spacing: .08em; color: var(--kr-ink-500); }
+
+.doc-content p {
+  margin-bottom: 12px;
+}
+
+.doc-content ul,
+.doc-content ol {
+  margin-bottom: 12px;
+  padding-left: 24px;
+}
+
+.doc-content li {
+  margin-bottom: 4px;
+}
+
+.doc-content code {
+  background: var(--kr-border-2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', 'Monaco', 'Consolas', monospace;
+  font-size: 9px;
+}
+
+.doc-content pre {
+  background: var(--kr-ink-900);
+  color: #f4f7f7;
+  padding: 12px 14px;
+  border-radius: var(--kr-radius);
+  overflow-x: auto;
+  margin-bottom: 12px;
+}
+
+.doc-content pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+.doc-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--kr-radius);
+  margin: 12px 0;
+}
+
+.doc-content a {
+  color: var(--kr-teal-700);
+  text-decoration: none;
+  border-bottom: 1px solid var(--kr-teal-100);
+}
+
+.doc-content a:hover {
+  color: var(--kr-teal-800);
+  border-bottom-color: var(--kr-teal-400);
+}
+
+.doc-content blockquote {
+  border-left: 3px solid var(--kr-teal-400);
+  background: var(--kr-teal-50);
+  padding: 8px 14px;
+  border-radius: 0 8px 8px 0;
+  margin: 12px 0;
+  color: var(--kr-ink-700);
+}
+
+/* Loading State */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: var(--kr-ink-500);
+  font-size: 10px;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: var(--kr-ink-500);
+  text-align: center;
+}
+
+.empty-state svg {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 12px;
+  opacity: 0.5;
+  color: var(--kr-teal-400);
+}
+
+/* Utility Classes */
+.hidden {
+  display: none !important;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--kr-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--kr-ink-300);
+}
+
+/* Star Button Active State */
+#starDocBtn.starred {
+  color: #e3a73a;
+}
+
+/* Content panel markdown styling */
+.content-body.markdown-content {
+  padding: 18px 22px;
+}
+
+
+.markdown-content {
+  color: var(--kr-ink-700);
+  font-size: 10.5px;
+  line-height: 1.65;
+  padding: 5px;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+  margin-top: 1.4rem;
+  margin-bottom: 0.85rem;
+  font-weight: 700;
+  color: var(--kr-ink-900);
+  letter-spacing: -.005em;
+  line-height: 1.25;
+}
+
+.markdown-content h1 {
+  font-size: 1.7rem;
+  font-weight: 800;
+  border-bottom: 1px solid var(--kr-border-2);
+  padding-bottom: 0.5rem;
+}
+
+.markdown-content h2 {
+  font-size: 1.3rem;
+}
+
+.markdown-content h3 {
+  font-size: 1.1rem;
+}
+
+.markdown-content p {
+  margin-bottom: 1rem;
+  color: var(--kr-ink-700);
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  margin-bottom: 1rem;
+  padding-left: 1.8rem;
+}
+
+.markdown-content li {
+  margin-bottom: 0.25rem;
+}
+
+/* Task list checkbox styles - hide disabled checkboxes */
+.markdown-content input[type="checkbox"][disabled] {
+  display: none;
+}
+
+.markdown-content .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-content .task-list-item input[type="checkbox"] {
+  margin-right: 0.5rem;
+  cursor: pointer;
+  accent-color: var(--kr-teal-600);
+}
+
+.markdown-content blockquote {
+  border-left: 3px solid var(--kr-teal-400);
+  padding: 0.6rem 1rem;
+  margin: 1rem 0;
+  color: var(--kr-ink-700);
+  background: var(--kr-teal-50);
+  border-radius: 0 8px 8px 0;
+}
+
+.markdown-content code {
+  background: var(--kr-border-2);
+  color: var(--kr-ink-900);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', 'Monaco', 'Courier New', monospace;
+  font-size: 0.88em;
+}
+
+.markdown-content pre {
+  background: var(--kr-ink-900) !important;
+  border: 0;
+  border-radius: var(--kr-radius);
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.markdown-content pre code {
+  background: transparent !important;
+  padding: 0;
+  color: #f4f7f7 !important;
+  font-size: 0.85em;
+}
+
+/* Match syntax-highlighted code blocks to the dark KR pre style */
+.markdown-content pre code.hljs,
+.markdown-content pre code[class*="language-"] {
+  background-color: transparent !important;
+  color: #f4f7f7 !important;
+}
+
+.markdown-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--kr-radius);
+  margin: 1rem 0;
+}
+
+.markdown-content table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1rem 0;
+  border: 1px solid var(--kr-border);
+  border-radius: var(--kr-radius);
+  overflow: hidden;
+  padding: 0;
+}
+
+.markdown-content th,
+.markdown-content td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--kr-border-2);
+  font-size: 9.5px;
+}
+
+.markdown-content tbody tr:last-child td { border-bottom: 0; }
+
+.markdown-content th {
+  background: var(--kr-surface-2);
+  font-weight: 700;
+  font-size: 8px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--kr-ink-400);
+}
+
+/* Public Space Folder View */
+.public-space-folder-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.folder-header {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--kr-border);
+  background: var(--kr-surface);
+  flex-shrink: 0;
+}
+
+.folder-header h2 {
+  margin: 0 0 4px 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--kr-ink-900);
+  letter-spacing: -.005em;
+}
+
+.folder-path {
+  margin: 0;
+  font-size: 9px;
+  color: var(--kr-ink-500);
+}
+
+.folder-contents {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.folder-item-public,
+.file-item-public {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--kr-surface);
+  border: 1px solid var(--kr-border);
+  border-radius: 9px;
+  box-shadow: var(--kr-shadow-sm);
+  cursor: pointer;
+  transition: all .15s ease;
+  user-select: none;
+  font-size: 10px;
+  color: var(--kr-ink-900);
+  font-weight: 500;
+}
+
+.folder-item-public:hover,
+.file-item-public:hover {
+  border-color: var(--kr-teal-100);
+  background: var(--kr-teal-50);
+}
+
+.folder-item-public i,
+.file-item-public i {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--kr-ink-400);
+}
+
+.folder-item-public i { color: var(--kr-teal-600); }
+
+.folder-item-public:hover i,
+.file-item-public:hover i {
+  color: var(--kr-teal-700);
+}

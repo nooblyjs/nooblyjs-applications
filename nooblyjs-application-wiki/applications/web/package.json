@@ -1,0 +1,13 @@
+{
+  "name": "nooblyjs-knowledge-repository-web",
+  "version": "1.0.0",
+  "description": "Web frontends for NooblyJS Wiki",
+  "private": true,
+  "scripts": {
+    "install": "npm run install:datasources && npm run install:wiki",
+    "install:datasources": "cd datasources && npm install",
+    "install:wiki": "cd wiki && npm install",
+    "dev:datasources": "cd datasources && npm run dev",
+    "dev:wiki": "cd wiki && npm run dev"
+  }
+}

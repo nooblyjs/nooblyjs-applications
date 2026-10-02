@@ -1,0 +1,33 @@
+# EditorConfig — keep line endings and encoding consistent across editors.
+# https://editorconfig.org
+# This matters even for git-ignored files like `.env`: a CRLF-saved .env leaves a
+# trailing \r on every value (e.g. paths -> literal-CR folders, broken URLs/tokens).
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# Env files: always LF, never trim (values may legitimately differ); 2-col is irrelevant.
+[*.env]
+end_of_line = lf
+[.env]
+end_of_line = lf
+[.env.*]
+end_of_line = lf
+
+[*.{js,json}]
+indent_size = 4
+
+[*.{yml,yaml}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.sh]
+end_of_line = lf

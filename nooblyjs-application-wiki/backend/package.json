@@ -1,0 +1,96 @@
+{
+  "name": "digital-technologies-knowledge",
+  "version": "2.0.0",
+  "description": "Unified backend combining workflow automation (datasources) and knowledge management (wiki)",
+  "author": "NooblyJS Team",
+  "type": "commonjs",
+  "main": "app.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "prod": "pm2 start ../app.js",
+    "certs": "node scripts/generate-certs.js",
+    "certs:force": "node scripts/generate-certs.js --force",
+    "start": "node ../app.js",
+    "dev": "nodemon --watch ./ ../app.js",
+    "start:datasources": "node app-datasources.js",
+    "start:wiki": "node app-wiki.js",
+    "dev:datasources": "nodemon --watch src app-datasources.js",
+    "dev:wiki": "nodemon --watch src app-wiki.js",
+    "tests": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "install:all": "npm install && npm run install:frontends",
+    "install:frontends": "cd ../applications/datasources && npm install && cd ../viewer && npm install"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.1.76",
+    "@anthropic-ai/sdk": "^0.71.2",
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "bcryptjs": "^3.0.2",
+    "chokidar": "^4.0.3",
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.9",
+    "express-validator": "^7.3.1",
+    "joi": "^17.11.0",
+    "mammoth": "^1.11.0",
+    "mime-types": "^3.0.1",
+    "multer": "^2.0.0-rc.4",
+    "openai": "^6.16.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "pdf-parse": "^2.4.5",
+    "pdf-to-img": "^5.0.0",
+    "pptx-parser": "^1.1.7-beta.9",
+    "pptx2json": "^0.0.10",
+    "uuid": "^11.1.0",
+    "validator": "^13.11.0",
+    "xlsx": "^0.18.5",
+    "zod": "^4.3.6"
+  },
+  "peerDependencies": {
+    "body-parser": "^1.20.2",
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
+    "digital-technologies-core": "*",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.1.5",
+    "express-session": "^1.17.3",
+    "helmet": "^8.1.0",
+    "http-proxy-middleware": "^3.0.5",
+    "passport": "^0.7.0",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.11",
+    "selfsigned": "^5.5.0",
+    "supertest": "^7.2.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/../tests/backend"
+    ],
+    "modulePaths": [
+      "<rootDir>/node_modules"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testMatch": [
+      "<rootDir>/../tests/backend/**/*.test.js"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/../tests/backend/setup.js"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/views/**",
+      "!src/public/**"
+    ],
+    "coverageDirectory": "coverage",
+    "testTimeout": 10000
+  }
+}

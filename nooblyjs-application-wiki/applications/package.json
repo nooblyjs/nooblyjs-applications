@@ -1,0 +1,23 @@
+{
+  "name": "nooblyjs-app-wiki",
+  "version": "2.0.0",
+  "description": "Frontend applications for NooblyJS Wiki Platform",
+  "private": true,
+  "scripts": {
+    "install": "npm run install:all",
+    "install:all": "npm run install:web && npm run install:teams && npm run install:daemon && npm run install:vscode && npm run install:chrome && npm run install:electron",
+    "install:web": "cd web && npm install",
+    "install:teams": "cd teams && npm install",
+    "install:daemon": "cd daemon && npm install",
+    "install:vscode": "cd vscode && npm install",
+    "install:chrome": "echo 'Chrome extension - no npm dependencies'",
+    "install:electron": "cd electron && npm run install:all",
+    "dev": "echo 'Use dev:web-datasources, dev:web-wiki, dev:teams-datasources, or dev:teams-wiki'",
+    "dev:web-datasources": "cd web/datasources && npm run dev",
+    "dev:web-wiki": "cd web/wiki && npm run dev",
+    "dev:teams-datasources": "cd teams/datasources && npm run dev",
+    "dev:teams-wiki": "cd teams/wiki && npm run dev",
+    "dev:daemon": "cd daemon/wiki && npm run dev",
+    "dev:vscode": "cd vscode/wiki && npm run watch"
+  }
+}

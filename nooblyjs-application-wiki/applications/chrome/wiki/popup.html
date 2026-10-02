@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NooblyJS Wiki - Reader</title>
+
+    <!-- Design tokens & styles -->
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <!-- Markdown output styling (.md-doc, inline badges, tables) -->
+    <link rel="stylesheet" href="css/markdown-styles.css">
+    <!-- The wiki's OWN markdown chrome, generated from kr-base.css by build.js.
+         Loads AFTER markdown-styles.css so its rules win: it is what the web app
+         actually uses, and the only place `.kr-image` — the figure an embedded
+         base64 image renders inside — is styled at all. -->
+    <link rel="stylesheet" href="css/kr-markdown.css">
+    <!-- Landing-page blocks (landing-hero / news / tiles / stories / cta) as
+         emitted by markdown-parser.js. Generated from the wiki's kr-base.css by
+         build.js — see SHARED_ASSETS there. Must load AFTER markdown-styles.css:
+         both target content inside .md-doc, and these bands carry their own
+         typography and palette. -->
+    <link rel="stylesheet" href="css/kr-landing.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="css/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Auth Panel (hidden after login) -->
+        <div id="auth-panel" class="panel">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <img src="nooblyjs-logo-colour.png" class="auth-logo" alt="NooblyJS" />
+                    <div class="wordmark">
+                        <div class="title">NooblyJS Wiki</div>
+                        <div class="subtitle">READER</div>
+                    </div>
+                </div>
+
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="your@email.com" required autofocus />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="••••••••" required />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">
+                        Sign In
+                    </button>
+
+                    <div id="auth-error" class="auth-error hidden"></div>
+                    <div id="auth-loading" class="auth-loading hidden">Signing in...</div>
+
+                    <div
+                        style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-light); text-align: center;">
+                        <p style="font-size: 11px; color: var(--text-faint); margin: 0;">
+                            Server: <span id="server-display"
+                                style="font-weight: bold; color: var(--text-muted);">Loading...</span>
+                        </p>
+                        <p style="font-size: 10px; color: var(--text-faint); margin: 4px 0 0 0;">
+                            Configure in settings
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Main Panel (hidden until authenticated) -->
+        <div id="main-panel" class="panel hidden">
+            <!-- Header -->
+            <header class="header">
+                <img src="nooblyjs-logo-colour.png" class="header-logo" alt="NooblyJS" />
+                <div class="wordmark">
+                    <div class="title">NooblyJS Wiki</div>
+                    <div class="subtitle">READER</div>
+                </div>
+
+            </header>
+
+            <!-- Main Content Area -->
+            <div id="content" class="content">
+                <!-- Views rendered here by JavaScript -->
+            </div>
+
+            <!-- Input Bar (Ask tab only) -->
+            <div id="input-bar" class="input-bar hidden">
+                <div class="input-wrapper">
+                    <input type="text" id="ask-input" class="ask-input" placeholder="Ask anything…"
+                        aria-label="Ask a question" />
+                    <button id="send-btn" class="send-btn" title="Send message" aria-label="Send">
+                        <i class="bi bi-send"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bottom Tab Bar -->
+            <nav class="tab-bar" role="tablist">
+                <button class="tab-btn active" data-tab="browse" role="tab" aria-selected="true" aria-label="Browse tab">
+                    <i class="bi bi-folder"></i>
+                    <span class="label">Browse</span>
+                </button>
+                <button class="tab-btn" data-tab="recent" role="tab" aria-selected="false" aria-label="Recent tab">
+                    <i class="bi bi-clock-history"></i>
+                    <span class="label">Recent</span>
+                </button>
+                <button class="tab-btn" data-tab="search" role="tab" aria-selected="false" aria-label="Search tab">
+                    <i class="bi bi-search"></i>
+                    <span class="label">Search</span>
+                </button>
+                <button class="tab-btn" data-tab="ask" role="tab" aria-selected="false" aria-label="Ask tab">
+                    <i class="bi bi-lightbulb"></i>
+                    <span class="label">Ask</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Shared markdown parser (classic scripts; expose window.marked +
+       window.parseMarkdown before the ES module runs) -->
+    <script src="js/marked.min.js"></script>
+    <script src="js/markdown-parser.js"></script>
+    <!-- App (ES module — deferred, so the globals above are ready) -->
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>

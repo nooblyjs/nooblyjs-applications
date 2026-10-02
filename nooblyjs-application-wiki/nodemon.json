@@ -1,0 +1,14 @@
+{
+  "watch": [
+    "backend/src",
+    "app.js",
+    "../nooblyjs-app-wiki-workflows/*/workflow-definition*.json"
+  ],
+  "ext": "js,json",
+  "ignore": [
+    "**/node_modules/**",
+    "backend/coverage/**",
+    "**/*.test.js"
+  ],
+  "delay": 500
+}

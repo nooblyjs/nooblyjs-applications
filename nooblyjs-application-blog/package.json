@@ -1,0 +1,36 @@
+{
+  "name": "nooblyjs-application-blog",
+  "version": "1.0.0",
+  "description": "This repository holds the code for a micro-service that exposes a simple blog like Medium. It leverages all the NooblyJS infrastructure.",
+  "homepage": "https://github.com/nooblyjs/nooblyjs-applicationsg#readme",
+  "bugs": {
+    "url": "https://github.com/nooblyjs/nooblyjs-applications/issues"
+  },
+  "repository": {
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "app.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "package.json",
+    "index.js"
+  ],
+  "scripts": {
+    "dev": "node ./app.js",
+    "kill": "  kill -9 $(lsof -t -i:3003)"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "nooblyjs-core": "../nooblyjs-core",
+    "passport": "^0.7.0"
+  }
+}

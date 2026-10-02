@@ -1,0 +1,14 @@
+{
+  "name": "digital-technologies-datasources-desktop",
+  "version": "2.0.0",
+  "description": "Desktop application for NooblyJS Wiki Datasources",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0"
+  }
+}

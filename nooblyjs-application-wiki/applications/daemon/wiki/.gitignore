@@ -1,0 +1,21 @@
+node_modules/
+.env
+.daemon-state*.json
+
+# Holds the server URL, the API token and the folder selection — written by the
+# setup screen, never committed.
+.daemon-config.json
+.daemon-config.json.tmp
+.daemon-config.json.corrupt-*
+
+# Change-feed position, so a restart resumes instead of skipping what happened
+# while the daemon was down.
+.daemon-cursor.json
+
+watch/
+.application/
+
+# Installer build output — assembled from source, never committed
+build/staging/
+build/dist/
+build/assets/app.ico

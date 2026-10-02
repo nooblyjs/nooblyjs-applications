@@ -1,0 +1,21 @@
+#application specific
+.application/
+documents/
+documents-readonly/
+documents-shared/
+watch/
+.data/
+data/
+.noobly-core/
+
+#nodent goes here...
+node_modules/
+
+#electron
+dist/
+.DS_Store
+*.log
+
+#env
+.env
+*.env.*

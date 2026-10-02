@@ -1,0 +1,15 @@
+{
+  "name": "digital-technologies-knowledge-wiki-extension",
+  "version": "1.0.0",
+  "description": "Chrome extension for the NooblyJS Wiki",
+  "private": true,
+  "scripts": {
+    "build": "node build.js",
+    "sync": "node build.js --sync-only",
+    "build:prod": "node build.js --url https://wiki.example.com",
+    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\""
+  },
+  "build": {
+    "targetUrl": "https://wiki.example.com"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint"],
+  "env": {
+    "node": true,
+    "es2020": true
+  },
+  "rules": {
+    "@typescript-eslint/naming-convention": [
+      "warn",
+      { "selector": "class", "format": ["PascalCase"] }
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
+    "curly": ["warn", "multi-line"],
+    "eqeqeq": ["warn", "smart"],
+    "no-throw-literal": "warn",
+    "semi": "warn",
+    "no-console": "off"
+  },
+  "ignorePatterns": [
+    "out",
+    "node_modules",
+    "media/vendor",
+    ".eslintrc.json"
+  ]
+}

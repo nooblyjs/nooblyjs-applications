@@ -1,0 +1,401 @@
+/*
+ * Blog overrides on top of Bootstrap 5 and the shared Noobly styles (styles.css).
+ * Load order: bootstrap.min.css → bootstrap-icons.css → styles.css → blog.css.
+ * The Customise screen's Accent and Background colours override --accent and --bg
+ * (see generateThemeCSS in src/views/index.js).
+ */
+
+/* Point Bootstrap's theme variables at the Noobly tokens */
+:root {
+  --on-accent: #FFFFFF;
+  --reading-max: 700px;
+
+  --bs-primary: var(--accent);
+  --bs-primary-rgb: 194, 71, 31;
+  --bs-primary-bg-subtle: var(--accent-soft);
+  --bs-primary-border-subtle: var(--accent-light);
+  --bs-primary-text-emphasis: var(--accent-link);
+  --bs-body-bg: var(--bg);
+  --bs-body-color: var(--ink);
+  --bs-body-font-family: var(--font-body);
+  --bs-emphasis-color: var(--ink);
+  --bs-secondary-color: var(--muted);
+  --bs-tertiary-bg: var(--surface-sunken);
+  --bs-border-color: var(--border);
+  --bs-link-color: var(--accent-link);
+  --bs-link-hover-color: var(--accent);
+  --bs-focus-ring-color: var(--accent-tint);
+}
+
+/* styles.css resets every margin and padding; give lists and paragraphs back their rhythm where Bootstrap expects it */
+.navbar-nav,
+.nav,
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  color: var(--on-accent);
+}
+
+/* Outline variants styles.css doesn't define (styles.css removes .btn borders) */
+.btn-outline-danger,
+.btn-outline-success,
+.btn-outline-warning {
+  border: 2px solid var(--border-strong);
+  background: var(--surface);
+}
+
+.btn-outline-danger { color: var(--danger); }
+.btn-outline-success { color: var(--teal-text); }
+.btn-outline-warning { color: var(--warn-ink); }
+
+.btn-outline-danger:hover {
+  border-color: var(--danger);
+  background: var(--danger-soft);
+  color: var(--danger-ink);
+}
+
+.btn-outline-success:hover {
+  border-color: var(--teal);
+  background: var(--teal-soft);
+  color: var(--teal-ink);
+}
+
+.btn-outline-warning:hover {
+  border-color: var(--warn-border);
+  background: var(--warn-soft);
+  color: var(--warn-ink);
+}
+
+.btn-group-sm > .btn {
+  min-height: 34px;
+  padding: 6px 10px;
+}
+
+.btn[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-tint);
+  color: var(--accent);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  color: #FFFFFF;
+}
+
+.btn-danger:hover {
+  background-color: var(--danger-ink);
+  color: #FFFFFF;
+}
+
+.alert-info {
+  background-color: var(--teal-soft);
+  border-color: var(--teal-soft);
+  color: var(--teal-ink);
+}
+
+/* Only cards that open something lift on hover */
+.card:not(.card-interactive):hover {
+  box-shadow: var(--shadow-sm);
+  transform: none;
+}
+
+.card-interactive:hover .card-title-link {
+  color: var(--accent);
+}
+
+/* Shared bits */
+
+.section-heading {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.blog-wordmark {
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+
+.blog-wordmark em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.blog-wordmark-small {
+  font-size: 18px;
+}
+
+.chip .count {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.chip.active .count {
+  color: inherit;
+}
+
+.blog-stats {
+  display: flex;
+  gap: var(--spacing-md);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.blog-stats .bi {
+  margin-right: 4px;
+}
+
+.blog-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-search {
+  width: 100%;
+  max-width: 300px;
+}
+
+@media (max-width: 991.98px) {
+  .blog-search {
+    max-width: none;
+    margin: var(--spacing-sm) 0;
+  }
+}
+
+.is-loading {
+  animation: blog-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes blog-pulse {
+  50% { opacity: .45; }
+}
+
+/* Home */
+
+.blog-banner {
+  height: 240px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+
+.blog-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blog-hero-media {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--divider);
+}
+
+.blog-hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blog-post-date {
+  flex: none;
+  width: 72px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.blog-post-date span {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+@media (min-width: 992px) {
+  .blog-sidebar {
+    position: sticky;
+    top: 96px;
+  }
+}
+
+.blog-trending-rank {
+  flex: none;
+  width: 40px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--border-strong);
+}
+
+.blog-trending li:first-child .blog-trending-rank {
+  color: var(--accent);
+}
+
+.blog-trending li:last-child {
+  border-bottom: 0 !important;
+}
+
+.blog-trending li:hover a {
+  color: var(--accent);
+}
+
+.blog-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs) var(--spacing-lg);
+}
+
+.blog-social a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.blog-social a:hover {
+  color: var(--accent);
+}
+
+/* Reader */
+
+.blog-reader-header {
+  max-width: 780px;
+}
+
+.blog-reader-cover img {
+  width: 100%;
+  max-height: 600px;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+}
+
+.blog-reader-column {
+  max-width: var(--reading-max);
+}
+
+.blog-reader-body {
+  font-size: 19px;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.blog-reader-body > * + * {
+  margin-top: var(--spacing-xl);
+}
+
+.blog-reader-body ul {
+  padding-left: 1.4em;
+}
+
+.blog-reader-body li + li {
+  margin-top: var(--spacing-xs);
+}
+
+.blog-reader-body a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.blog-comment {
+  padding: var(--spacing-lg) 0;
+  border-bottom: 1px solid var(--divider);
+}
+
+.blog-comment-body {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.is-pulsing .bi {
+  animation: blog-clap 300ms ease-out;
+}
+
+@keyframes blog-clap {
+  50% { transform: scale(1.2); }
+}
+
+@media (max-width: 575.98px) {
+  .blog-banner {
+    height: 160px;
+  }
+
+  .blog-reader-body {
+    font-size: 17px;
+  }
+}
+
+/* Author Hub */
+
+.author-tabs {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.author-tabs .nav-link {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding: 14px 4px;
+  margin-right: var(--spacing-xl);
+  font-weight: 600;
+  color: var(--ink-2);
+  background: none;
+}
+
+.author-tabs .nav-link:hover {
+  color: var(--accent);
+}
+
+.author-tabs .nav-link.active {
+  border-bottom-color: var(--accent);
+  color: var(--ink);
+  background: none;
+}
+
+.author-table tbody tr {
+  cursor: default;
+}
+
+.colour-input {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.colour-input .form-control-color {
+  flex: none;
+  width: 52px;
+  padding: 4px;
+}
+
+@media (min-width: 1200px) {
+  .author-editor {
+    position: sticky;
+    top: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}

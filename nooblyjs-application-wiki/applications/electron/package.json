@@ -1,0 +1,13 @@
+{
+  "name": "digital-technologies-electron-apps",
+  "version": "2.0.0",
+  "description": "Electron desktop applications for NooblyJS Wiki Platform",
+  "private": true,
+  "scripts": {
+    "install:wiki": "cd wiki && npm install",
+    "install:datasources": "cd datasources && npm install",
+    "install:all": "npm run install:wiki && npm run install:datasources",
+    "start:wiki": "cd wiki && npm start",
+    "start:datasources": "cd datasources && npm start"
+  }
+}

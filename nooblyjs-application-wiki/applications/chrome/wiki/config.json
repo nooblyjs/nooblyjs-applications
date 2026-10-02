@@ -1,0 +1,19 @@
+{
+  "appName": "NooblyJS Wiki",
+  "version": "1.0.0",
+  "defaultServerUrl": "https://localhost:9101",
+  "apiEndpoint": "/applications/wiki/api",
+  "authEndpoint": "/api/auth",
+  "supportedHosts": [
+    "localhost:9101"
+  ],
+  "allowedEmailDomains": [
+    "localhost"
+  ],
+  "features": {
+    "readOnly": true,
+    "search": true,
+    "recent": true,
+    "starred": true
+  }
+}

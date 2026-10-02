@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NooblyJS Blog Application</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #6c757d;
+            --gradient-start: #f8f9fa;
+            --gradient-end: #e9ecef;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .page-wrapper {
+            background: white;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #0052a3 100%);
+            color: white;
+            padding: 4rem 0 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-robot {
+            max-width: 200px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .content-card {
+            background: white;
+            margin-top: 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .nav-tabs .nav-link {
+            color: var(--secondary-color);
+            border: none;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            background: transparent;
+            border-bottom-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .btn-custom {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+        }
+
+        .btn-custom:hover {
+            background: #0052a3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
+            color: white;
+        }
+
+        .markdown-content {
+            padding: 2rem 0;
+        }
+
+        .markdown-content h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .markdown-content h2 {
+            color: #0052a3;
+            font-size: 2rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .markdown-content h3 {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .markdown-content h4 {
+            color: var(--secondary-color);
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .markdown-content p {
+            margin-bottom: 1.25rem;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .markdown-content ul, .markdown-content ol {
+            margin-bottom: 1.25rem;
+            padding-left: 2rem;
+        }
+
+        .markdown-content li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        .markdown-content code {
+            background: #f8f9fa;
+            color: #e83e8c;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-family: 'Courier New', monospace;
+        }
+
+        .markdown-content pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .markdown-content pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+            font-size: 0.95em;
+        }
+
+        .markdown-content blockquote {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+        }
+
+        .markdown-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .markdown-content a:hover {
+            border-bottom-color: var(--primary-color);
+            color: #0052a3;
+        }
+
+        .markdown-content table {
+            width: 100%;
+            margin-bottom: 1.5rem;
+            border-collapse: collapse;
+        }
+
+        .markdown-content th,
+        .markdown-content td {
+            border: 1px solid #dee2e6;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .markdown-content th {
+            background: var(--gradient-start);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .markdown-content hr {
+            border: none;
+            border-top: 2px solid #dee2e6;
+            margin: 2.5rem 0;
+        }
+
+        .markdown-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .hero-robot {
+                max-width: 150px;
+            }
+
+            .markdown-content h1 {
+                font-size: 2rem;
+            }
+
+            .markdown-content h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8 text-center text-md-start">
+                    <h1 class="hero-title">
+                        <i class="bi bi-book"></i> NooblyJS Blog Application
+                    </h1>
+                    <p class="hero-subtitle">
+                        A fully fledged blog
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="content-card">
+        <div class="container-fluid p-4">
+            <!-- Navigation Tabs -->
+            <ul class="nav nav-tabs mb-4" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="readme-tab" data-bs-toggle="tab"
+                            data-bs-target="#readme" type="button" role="tab">
+                        <i class="bi bi-file-text"></i> README
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="quick-start-tab" data-bs-toggle="tab"
+                            data-bs-target="#quick-start" type="button" role="tab">
+                        <i class="bi bi-rocket-takeoff"></i> Quick Start
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- README Tab -->
+                <div class="tab-pane fade show active" id="readme" role="tabpanel">
+                    <div id="content">
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-3 text-muted">Loading README...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Start Tab -->
+                <div class="tab-pane fade" id="quick-start" role="tabpanel">
+                    <div class="row g-4 py-4">
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="bi bi-box-arrow-in-right feature-icon"></i>
+                                <h4>Launch Blog</h4>
+                                <p class="text-muted">Access the full wiki application with all features</p>
+                                <a href="/applications/blog" class="btn btn-custom">
+                                    <i class="bi bi-arrow-right-circle"></i> Launch Now
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="bi bi-file-earmark-text feature-icon"></i>
+                                <h4>Documentation</h4>
+                                <p class="text-muted">Create and organize documents in dedicated spaces</p>
+                                <button class="btn btn-outline-primary" onclick="document.getElementById('readme-tab').click()">
+                                    <i class="bi bi-book"></i> Read Docs
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="bi bi-github feature-icon"></i>
+                                <h4>GitHub</h4>
+                                <p class="text-muted">View source code and contribute to the project</p>
+                                <a href="https://github.com/nooblyjs/nooblyjs-apps-blog"
+                                   class="btn btn-outline-secondary" target="_blank">
+                                    <i class="bi bi-code-slash"></i> View Source
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info mt-4" role="alert">
+                        <i class="bi bi-info-circle"></i>
+                        <strong>Getting Started:</strong> The wiki application features three default spaces:
+                        Personal (private notes), Shared (team collaboration), and Read-Only (reference materials).
+                    </div>
+                </div>
+            </div>
+        </div><!-- /container-fluid -->
+    </div><!-- /content-card -->
+    </div><!-- /page-wrapper -->
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Simple markdown parser
+        function parseMarkdown(markdown) {
+            let html = markdown;
+
+            // Escape HTML in code blocks first to prevent processing
+            const codeBlocks = [];
+            html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+                codeBlocks.push(code);
+                return `__CODEBLOCK_${codeBlocks.length - 1}__`;
+            });
+
+            // Headers (must be done in reverse order to prevent conflicts)
+            html = html.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
+            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+            html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+            html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+            // Inline code
+            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+            // Bold
+            html = html.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
+
+            // Italic
+            html = html.replace(/\*([^\*]+)\*/g, '<em>$1</em>');
+
+            // Links
+            html = html.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+            // Horizontal rule
+            html = html.replace(/^---$/gim, '<hr>');
+
+            // Blockquotes
+            html = html.replace(/^> (.+)$/gim, '<blockquote>$1</blockquote>');
+
+            // Lists - handle line by line
+            const lines = html.split('\n');
+            const processedLines = [];
+            let inList = false;
+            let listType = null;
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const trimmed = line.trim();
+
+                // Unordered list
+                if (trimmed.match(/^[\*\-] /)) {
+                    if (!inList || listType !== 'ul') {
+                        if (inList) processedLines.push(`</${listType}>`);
+                        processedLines.push('<ul>');
+                        inList = true;
+                        listType = 'ul';
+                    }
+                    processedLines.push('<li>' + trimmed.substring(2) + '</li>');
+                }
+                // Ordered list
+                else if (trimmed.match(/^\d+\. /)) {
+                    if (!inList || listType !== 'ol') {
+                        if (inList) processedLines.push(`</${listType}>`);
+                        processedLines.push('<ol>');
+                        inList = true;
+                        listType = 'ol';
+                    }
+                    processedLines.push('<li>' + trimmed.replace(/^\d+\. /, '') + '</li>');
+                }
+                else {
+                    if (inList) {
+                        processedLines.push(`</${listType}>`);
+                        inList = false;
+                        listType = null;
+                    }
+
+                    // Don't wrap special elements in paragraphs
+                    if (trimmed &&
+                        !trimmed.startsWith('<h') &&
+                        !trimmed.startsWith('<hr') &&
+                        !trimmed.startsWith('<blockquote') &&
+                        !trimmed.includes('__CODEBLOCK_')) {
+                        processedLines.push('<p>' + line + '</p>');
+                    } else {
+                        processedLines.push(line);
+                    }
+                }
+            }
+
+            if (inList) {
+                processedLines.push(`</${listType}>`);
+            }
+
+            html = processedLines.join('\n');
+
+            // Restore code blocks
+            codeBlocks.forEach((code, index) => {
+                html = html.replace(`__CODEBLOCK_${index}__`, `<pre><code>${escapeHtml(code)}</code></pre>`);
+            });
+
+            return html;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function loadReadme() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3 text-muted">Loading README...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('/applications/blog/README.md');
+
+                if (!response.ok) {
+                    throw new Error(`Failed to load README: ${response.status}`);
+                }
+
+                const markdown = await response.text();
+                const html = parseMarkdown(markdown);
+
+                content.innerHTML = '<div class="markdown-content">' + html + '</div>';
+            } catch (error) {
+                content.innerHTML = `
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading"><i class="bi bi-exclamation-triangle"></i> Error Loading README</h4>
+                        <p>${error.message}</p>
+                        <hr>
+                        <button class="btn btn-danger" onclick="loadReadme()">
+                            <i class="bi bi-arrow-clockwise"></i> Try Again
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Load README on page load
+        window.addEventListener('DOMContentLoaded', loadReadme);
+    </script>
+</body>
+</html>

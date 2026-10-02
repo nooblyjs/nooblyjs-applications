@@ -1,0 +1,241 @@
+/*
+ * Bridges the wiki's design tokens onto VS Code's theme.
+ *
+ * The vendored stylesheets (markdown-styles.css, kr-landing.css) are written
+ * against the wiki's `--kr-*` token set, which normally comes from kr-base.css
+ * — a file that also carries the whole web app's layout and is far too much to
+ * ship here. This defines just the tokens those two files actually read.
+ *
+ * Neutrals resolve to `--vscode-*` so a document follows whatever theme the
+ * user has chosen, light or dark, without this file knowing which. The TEAL
+ * RAMP is kept literal: it is the wiki's brand, it is what the same document
+ * looks like in the browser, and no VS Code theme exposes an equivalent
+ * accent ramp to derive it from.
+ *
+ * Authored, not generated — nothing in scripts/sync-assets.js touches it.
+ */
+
+:root {
+  /* Brand ramp — matches kr-base.css exactly. */
+  --kr-teal-900: #0a3d3d;
+  --kr-teal-800: #0d4f4f;
+  --kr-teal-700: #0e6362;
+  --kr-teal-600: #0f7a78;   /* primary */
+  --kr-teal-500: #149e9b;
+  --kr-teal-400: #2bb8b4;
+  --kr-teal-100: #d9efee;
+  --kr-teal-50:  #ecf6f5;
+
+  /* Surfaces and ink follow the editor theme. */
+  --kr-surface:   var(--vscode-editor-background);
+  --kr-surface-2: var(--vscode-editorWidget-background, var(--vscode-editor-background));
+
+  --kr-ink-900: var(--vscode-editor-foreground, var(--vscode-foreground));
+  --kr-ink-700: var(--vscode-foreground);
+  --kr-ink-600: var(--vscode-foreground);
+  --kr-ink-500: var(--vscode-descriptionForeground);
+  --kr-ink-400: var(--vscode-disabledForeground, var(--vscode-descriptionForeground));
+
+  --kr-border:   var(--vscode-panel-border, rgba(128, 128, 128, .35));
+  --kr-border-2: var(--vscode-widget-border, rgba(128, 128, 128, .22));
+
+  --kr-radius-sm: 6px;
+  --kr-radius:    10px;
+  --kr-radius-lg: 14px;
+
+  /* Flat by design: VS Code's own surfaces do not use drop shadows, and the
+     web app's shadows are tuned for a light ground they will not have here. */
+  --kr-shadow-sm: none;
+  --kr-shadow:    none;
+  --kr-shadow-lg: none;
+
+  /* Default column count for landing grids; `across:` overrides per block. */
+  --kr-grid-cols: 3;
+}
+
+/* In a dark theme the light end of the ramp becomes unreadable as a tint —
+   flip the two ends so `--kr-teal-50/100` stay "a quiet wash of the accent"
+   rather than "a white card". */
+body.vscode-dark,
+body.vscode-high-contrast {
+  --kr-teal-100: #10403f;
+  --kr-teal-50:  #0d3231;
+}
+
+body {
+  background: var(--vscode-editor-background);
+  color: var(--vscode-foreground);
+  font-family: var(--vscode-font-family);
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Viewer shell ─────────────────────────────────────────────────────────── */
+
+.wiki-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 20px;
+  background: var(--vscode-editor-background);
+  border-bottom: 1px solid var(--kr-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.wiki-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.wiki-file-name {
+  font-family: var(--vscode-font-family);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wiki-file-path {
+  font-family: var(--vscode-editor-font-family, monospace);
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wiki-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+
+.wiki-btn {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: var(--vscode-foreground);
+  cursor: pointer;
+  padding: 5px 7px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--vscode-font-family);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.wiki-btn:hover {
+  background: var(--vscode-toolbar-hoverBackground, rgba(128, 128, 128, .2));
+}
+
+.wiki-btn:focus-visible {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: 1px;
+}
+
+.wiki-btn[aria-pressed="true"] {
+  color: var(--vscode-charts-yellow, #d7a521);
+}
+
+.wiki-body {
+  padding: 20px 24px 48px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.wiki-notice {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border-left: 3px solid var(--kr-teal-500);
+  background: var(--vscode-textBlockQuote-background, rgba(128, 128, 128, .1));
+  font-size: 13px;
+}
+
+.wiki-empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--vscode-descriptionForeground);
+}
+
+.wiki-error {
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.wiki-error-message {
+  color: var(--vscode-errorForeground);
+  font-size: 14px;
+  max-width: 60ch;
+  margin: 0 auto;
+}
+
+/* ── Images ───────────────────────────────────────────────────────────────── */
+
+.wiki-image-wrap {
+  text-align: center;
+  padding: 8px 0 24px;
+}
+
+.wiki-image-wrap img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--kr-radius-sm);
+}
+
+/* ── PDF ──────────────────────────────────────────────────────────────────── */
+
+.wiki-pdf {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 32px;
+}
+
+.wiki-pdf canvas {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--kr-border);
+  background: #fff;
+}
+
+.wiki-pdf-status {
+  color: var(--vscode-descriptionForeground);
+  font-size: 12px;
+  padding: 24px;
+}
+
+/* An image the document names but the wiki does not have. Saying which
+   reference failed is more use than a broken-image glyph. */
+.wiki-image-missing {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px dashed var(--kr-border);
+  border-radius: var(--kr-radius-sm);
+  color: var(--vscode-descriptionForeground);
+  font-size: 12px;
+  font-style: italic;
+}
+
+/* Wide content must scroll inside itself, never the page. */
+.md-doc pre,
+.md-doc table,
+.kr-landing table {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: .001ms !important;
+    transition-duration: .001ms !important;
+  }
+}

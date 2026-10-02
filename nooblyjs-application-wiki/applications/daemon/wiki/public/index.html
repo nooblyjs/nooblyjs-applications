@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wiki Sync Daemon — Live</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png" />
+  <link rel="stylesheet" href="/assets/kr-base.css" />
+  <link rel="stylesheet" href="/assets/dashboard.css?v=7" />
+</head>
+<body>
+  <header class="kr-topbar">
+    <div class="kr-brand">
+      <img class="logo-img" src="/assets/images/nooblyjs-logo-colour.png" alt="NooblyJS" />
+      <div class="name">NooblyJS Wiki<small>Sync Daemon</small></div>
+    </div>
+    <div class="kr-topbar-center">
+      <span id="liveDot" class="dot" title="connection"></span>
+      <span id="statusLine" class="status-line">Connecting…</span>
+    </div>
+    <div class="kr-topbar-actions">
+      <div class="meta-item"><span class="meta-label">Server</span><span id="serverUrl" class="mono">—</span></div>
+      <div class="meta-item"><span class="meta-label">Uptime</span><span id="uptime" class="mono">—</span></div>
+      <div class="meta-item"><span class="meta-label">Next poll</span><span id="nextPoll" class="mono">—</span></div>
+      <button id="configBtn" class="kd-btn kd-btn-ghost-light" type="button">Configure</button>
+    </div>
+  </header>
+
+  <!-- =====================================================================
+       SETUP — shown instead of the dashboard until the daemon has a server
+       URL and a token. Nothing syncs while this is up.
+       ===================================================================== -->
+  <div id="setupView" class="kd-setup" hidden>
+    <form class="kd-setup-card" id="setupForm" autocomplete="off">
+      <img class="kd-setup-logo" src="/assets/images/nooblyjs-logo-colour.png" alt="" />
+      <h1>Connect to your NooblyJS Wiki</h1>
+      <p class="kd-setup-sub">
+        The daemon needs a server and an API token before it can sync anything.
+        Nothing is mirrored until both are supplied.
+      </p>
+
+      <label class="kd-field">
+        <span class="kd-label">Server URL</span>
+        <input class="kd-input mono" type="url" id="setupUrl" name="serverUrl" required
+               placeholder="https://wiki.example.com" />
+      </label>
+
+      <label class="kd-field">
+        <span class="kd-label">API token</span>
+        <input class="kd-input mono" type="password" id="setupToken" name="token" required
+               placeholder="dtk_…" autocomplete="off" spellcheck="false" />
+        <span class="kd-hint">
+          Create one in the wiki under <strong>Profile → API tokens</strong>, then paste it here.
+        </span>
+      </label>
+
+      <label class="kd-field">
+        <span class="kd-label">Local folder</span>
+        <input class="kd-input mono" type="text" id="setupFolder" name="baseFolder" required
+               autocomplete="off" spellcheck="false" />
+        <span class="kd-hint">
+          Everything you choose to sync is mirrored below this folder, one directory per space.
+          Defaults to your Documents folder.
+          <button class="kd-link" type="button" id="setupFolderReset">Use the default</button>
+        </span>
+      </label>
+
+      <div id="setupError" class="kd-alert" hidden></div>
+
+      <!-- Shown only when the server presented a certificate the system does
+           not trust. Pinning it keeps verification ON for everything else. -->
+      <div id="certOffer" class="kd-cert" hidden>
+        <div class="kd-cert-head">This server's certificate is not trusted</div>
+        <p class="kd-cert-lead" id="certLead"></p>
+        <dl class="kd-cert-facts">
+          <dt>Subject</dt><dd id="certSubject" class="mono"></dd>
+          <dt>Issuer</dt><dd id="certIssuer" class="mono"></dd>
+          <dt>Valid to</dt><dd id="certValidTo" class="mono"></dd>
+          <dt>SHA-256</dt><dd id="certFingerprint" class="mono kd-cert-fp"></dd>
+        </dl>
+        <p class="kd-cert-warn">
+          Only continue if you recognise this server. Compare the fingerprint with
+          the one on the server if you are unsure.
+        </p>
+        <button class="kd-btn kd-btn-primary kd-btn-block" type="button" id="certTrust">
+          Trust this certificate and connect
+        </button>
+      </div>
+
+      <button class="kd-btn kd-btn-primary kd-btn-block" type="submit" id="setupSubmit">Connect</button>
+      <p class="kd-setup-foot">Stored locally in <code>.daemon-config.json</code>, never sent anywhere else.</p>
+    </form>
+  </div>
+
+  <!-- =====================================================================
+       DASHBOARD
+       ===================================================================== -->
+  <div class="dash" id="dashView">
+    <div id="errorBanner" class="banner banner-error" hidden></div>
+    <div id="dropBanner" class="banner banner-warn" hidden>Live stream disconnected — retrying…</div>
+    <div id="emptyBanner" class="banner banner-info" hidden>
+      No folders are being synced yet.
+      <button class="kd-link" type="button" data-open-config>Choose folders to sync →</button>
+    </div>
+
+    <section class="stats">
+      <div class="stat"><div class="stat-num" id="s-folders">0</div><div class="stat-label">Folders</div></div>
+      <div class="stat accent-up"><div class="stat-num" id="s-uploads">0</div><div class="stat-label">Uploads</div></div>
+      <div class="stat accent-down"><div class="stat-num" id="s-downloads">0</div><div class="stat-label">Downloads</div></div>
+      <div class="stat accent-del"><div class="stat-num" id="s-deletes">0</div><div class="stat-label">Deletes</div></div>
+      <div class="stat accent-chg"><div class="stat-num" id="s-changes">0</div><div class="stat-label">Changes applied</div></div>
+      <div class="stat accent-poll"><div class="stat-num" id="s-polls">0</div><div class="stat-label">Polls</div></div>
+      <div class="stat accent-err"><div class="stat-num" id="s-errors">0</div><div class="stat-label">Errors</div></div>
+    </section>
+
+    <main class="grid">
+      <section class="kr-card">
+        <div class="kr-card-head">
+          <h2>Synced folders</h2>
+          <div class="kd-head-actions">
+            <span id="folderCount" class="pill">0</span>
+            <button class="kd-btn kd-btn-sm" type="button" data-open-config>Manage</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="spaces">
+            <thead>
+              <tr>
+                <th>Space</th><th>Folder</th><th class="num">Files</th>
+                <th class="num">↑</th><th class="num">↓</th><th class="num">✕</th>
+                <th>Last activity</th>
+              </tr>
+            </thead>
+            <tbody id="foldersBody">
+              <tr class="empty"><td colspan="7">No folders selected.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <aside class="kr-card">
+        <div class="kr-card-head"><h2>Connection</h2></div>
+        <dl class="kv">
+          <dt>Status</dt><dd id="c-status"><span class="pill">—</span></dd>
+          <dt>Authenticated</dt><dd id="c-auth" class="mono">—</dd>
+          <dt>Local folder</dt><dd id="c-watch" class="path">—</dd>
+          <dt>Poll interval</dt><dd id="c-interval" class="mono">—</dd>
+          <dt>Last poll</dt><dd id="c-lastpoll" class="mono">—</dd>
+          <dt>Change cursor</dt><dd id="c-cursor" class="path">—</dd>
+          <dt>Transferred</dt><dd id="c-bytes" class="mono">↑ 0 B · ↓ 0 B</dd>
+        </dl>
+      </aside>
+    </main>
+
+    <section class="kr-card">
+      <div class="kr-card-head">
+        <h2>Activity</h2>
+        <div class="filters" id="filters">
+          <button class="filter active" data-filter="all">All</button>
+          <button class="filter" data-filter="upload">Uploads</button>
+          <button class="filter" data-filter="download">Downloads</button>
+          <button class="filter" data-filter="change">Changes</button>
+          <button class="filter" data-filter="error">Errors</button>
+        </div>
+      </div>
+      <div id="feed" class="feed"><div class="empty">No activity yet.</div></div>
+    </section>
+  </div>
+
+  <!-- =====================================================================
+       CONFIGURATION SHEET — connection details and the folder picker.
+       ===================================================================== -->
+  <div id="configOverlay" class="kd-overlay" hidden>
+    <div class="kd-sheet" role="dialog" aria-modal="true" aria-labelledby="configTitle">
+      <div class="kd-sheet-head">
+        <h2 id="configTitle">Configuration</h2>
+        <button class="kd-icon-btn" type="button" id="configClose" aria-label="Close">✕</button>
+      </div>
+
+      <div class="kd-sheet-body">
+        <!-- Connection -->
+        <section class="kd-section">
+          <h3>Connection</h3>
+          <dl class="kd-conn">
+            <dt>Server</dt><dd id="cfgServer" class="mono">—</dd>
+            <dt>Token</dt><dd id="cfgToken" class="mono">—</dd>
+            <dt>Local folder</dt><dd id="cfgFolder" class="mono">—</dd>
+          </dl>
+          <div class="kd-row">
+            <button class="kd-btn kd-btn-sm" type="button" id="cfgChangeServer">Change server or token</button>
+            <button class="kd-btn kd-btn-sm" type="button" id="cfgChangeFolder">Change local folder</button>
+            <button class="kd-btn kd-btn-sm kd-btn-danger-ghost" type="button" id="cfgDisconnect">Disconnect</button>
+          </div>
+          <div id="cfgCerts" class="kd-pins" hidden>
+            <div class="kd-pins-head">Pinned certificates</div>
+            <ul class="kd-pins-list" id="cfgCertList"></ul>
+          </div>
+        </section>
+
+        <!-- Picker -->
+        <section class="kd-section kd-section-grow">
+          <h3>Folders to sync</h3>
+          <div class="kd-picker">
+            <!-- left: find -->
+            <div class="kd-browse">
+              <div class="kd-browse-controls">
+                <select class="kd-input kd-select" id="pickSpace" aria-label="Limit to one space"></select>
+                <input class="kd-input" type="search" id="pickSearch" placeholder="Search document contents to find their folder…" />
+              </div>
+              <div class="kd-browse-mode" id="pickMode" hidden>
+                <span id="pickModeLabel"></span>
+                <button class="kd-link" type="button" id="pickClearSearch">Back to browsing</button>
+              </div>
+              <div class="kd-tree" id="pickTree"><div class="kd-muted kd-pad">Loading spaces…</div></div>
+            </div>
+
+            <!-- right: chosen -->
+            <div class="kd-chosen">
+              <div class="kd-chosen-head">
+                <span>Selected</span><span class="pill" id="chosenCount">0</span>
+              </div>
+              <ul class="kd-chosen-list" id="chosenList"></ul>
+              <div id="deleteWarning" class="kd-alert kd-alert-warn" hidden></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="kd-sheet-foot">
+        <div id="configError" class="kd-alert" hidden></div>
+        <div class="kd-foot-actions">
+          <button class="kd-btn" type="button" id="configCancel">Cancel</button>
+          <button class="kd-btn kd-btn-primary" type="button" id="configSave">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Changing where the mirror lives. Separate from the credentials sheet
+       because this one MOVES FILES, and that has to be said before it runs. -->
+  <div id="folderOverlay" class="kd-overlay" hidden>
+    <form class="kd-sheet kd-sheet-narrow" id="folderForm" autocomplete="off">
+      <div class="kd-sheet-head">
+        <h2>Local folder</h2>
+        <button class="kd-icon-btn" type="button" id="folderClose" aria-label="Close">✕</button>
+      </div>
+      <div class="kd-sheet-body">
+        <label class="kd-field">
+          <span class="kd-label">Mirror everything below</span>
+          <input class="kd-input mono" type="text" id="folderPath" required
+                 autocomplete="off" spellcheck="false" />
+          <span class="kd-hint">
+            One directory per space is created here.
+            <button class="kd-link" type="button" id="folderReset">Use the default</button>
+          </span>
+        </label>
+        <p class="kd-hint" id="folderMoveNote" hidden></p>
+        <div id="folderError" class="kd-alert" hidden></div>
+      </div>
+      <div class="kd-sheet-foot">
+        <div class="kd-foot-actions">
+          <button class="kd-btn" type="button" id="folderCancel">Cancel</button>
+          <button class="kd-btn kd-btn-primary" type="submit" id="folderSubmit">Move and save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Re-entering the server URL / token from the config sheet. -->
+  <div id="credsOverlay" class="kd-overlay" hidden>
+    <form class="kd-sheet kd-sheet-narrow" id="credsForm" autocomplete="off">
+      <div class="kd-sheet-head">
+        <h2>Server and token</h2>
+        <button class="kd-icon-btn" type="button" id="credsClose" aria-label="Close">✕</button>
+      </div>
+      <div class="kd-sheet-body">
+        <label class="kd-field">
+          <span class="kd-label">Server URL</span>
+          <input class="kd-input mono" type="url" id="credsUrl" required />
+        </label>
+        <label class="kd-field">
+          <span class="kd-label">API token</span>
+          <input class="kd-input mono" type="password" id="credsToken" required
+                 placeholder="dtk_…" autocomplete="off" spellcheck="false" />
+          <span class="kd-hint">Re-enter the token — it is never sent back to the browser.</span>
+        </label>
+        <div id="credsError" class="kd-alert" hidden></div>
+      </div>
+      <div class="kd-sheet-foot">
+        <div class="kd-foot-actions">
+          <button class="kd-btn" type="button" id="credsCancel">Cancel</button>
+          <button class="kd-btn kd-btn-primary" type="submit" id="credsSubmit">Verify and save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script src="/assets/app.js?v=7"></script>
+</body>
+</html>
