@@ -17,7 +17,7 @@
     "kill": "  kill -9 $(lsof -t -i:3004)"
   },
   "dependencies": {
-    "nooblyjs-core": "../nooblyjs-core",
+    "nooblyjs-core": "../../nooblyjs-core",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "passport": "^0.7.0",

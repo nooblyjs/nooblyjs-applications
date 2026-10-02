@@ -51,7 +51,7 @@
     "helmet": "^8.1.0",
     "http-proxy-middleware": "^3.0.5",
     "joi": "^18.2.9",
-    "nooblyjs-core": "../nooblyjs-core/",
+    "nooblyjs-core": "../../nooblyjs-core",
     "passport": "^0.7.0",
     "rimraf": "^6.1.3",
     "socket.io": "^4.8.1",
